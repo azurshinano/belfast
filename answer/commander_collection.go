@@ -18,7 +18,6 @@ type MaxShipStat struct {
 func CommanderCollection(buffer *[]byte, client *connection.Client) (int, int, error) {
 	// Out of all commander's OwnedShips, return the max star, max intimacy, and max level
 	// of each ship group (= TemplateID divided by 10)
-
 	stats := []*protobuf.SHIP_STATISTICS_INFO{}
 	orm.GormDB.Raw(`
 	SELECT
@@ -35,9 +34,26 @@ func CommanderCollection(buffer *[]byte, client *connection.Client) (int, int, e
 	GROUP BY group_id, owned_ships.ship_id
 	`, client.Commander.CommanderID, client.Commander.CommanderID).Scan(&stats)
 
+	awardsMap := map[uint32][]uint32{}
+	for _, v := range client.Commander.OwnedAwards {
+		if m, ok := awardsMap[v.TypeID]; ok {
+			awardsMap[v.TypeID] = append(m, v.AwardID)
+		} else {
+			awardsMap[v.TypeID] = []uint32{v.AwardID}
+		}
+	}
+	awards := []*protobuf.SHIP_STATISTICS_AWARD{}
+	for k, v := range awardsMap {
+		awards = append(awards, &protobuf.SHIP_STATISTICS_AWARD{
+			Id:         proto.Uint32(k),
+			AwardIndex: v,
+		})
+	}
+
 	response := protobuf.SC_17001{
-		DailyDiscuss: proto.Uint32(0),
-		ShipInfoList: stats,
+		DailyDiscuss:  proto.Uint32(0),
+		ShipInfoList:  stats,
+		ShipAwardList: awards,
 	}
 	return client.SendMessage(17001, &response)
 }

@@ -79,6 +79,8 @@ func InitDatabase() bool {
 		&CommanderMiscItem{},
 		&OwnedResource{},
 		&Like{},
+		&OwnedStory{},
+		&OwnedAward{},
 	)
 	if err != nil {
 		panic("failed to migrate database " + err.Error())

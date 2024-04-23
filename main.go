@@ -149,6 +149,10 @@ func init() {
 	packets.RegisterPacketHandler(11013, []packets.PacketHandler{answer.GiveResources})
 	packets.RegisterPacketHandler(33000, []packets.PacketHandler{answer.UNK_33001})
 	packets.RegisterPacketHandler(10994, []packets.PacketHandler{answer.CheaterMark})
+	packets.RegisterPacketHandler(11017, []packets.PacketHandler{answer.UpdateOwnedStory})
+	packets.RegisterPacketHandler(17005, []packets.PacketHandler{answer.UpdateOwnedAward})
+	packets.RegisterPacketHandler(11007, []packets.PacketHandler{answer.CommanderChangeName})
+	packets.RegisterPacketHandler(11009, []packets.PacketHandler{answer.CommanderChangeAdv})
 
 	// Build
 	packets.RegisterPacketHandler(12002, []packets.PacketHandler{answer.ShipBuild})

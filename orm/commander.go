@@ -3,6 +3,7 @@ package orm
 import (
 	"fmt"
 	"sort"
+	"strconv"
 	"time"
 
 	"github.com/ggmolly/belfast/logger"
@@ -18,9 +19,11 @@ type Commander struct {
 	Level         int       `gorm:"default:1;not_null"`
 	Exp           int       `gorm:"default:0;not_null"`
 	Name          string    `gorm:"size:30;not_null"`
+	Adv           string    `gorm:"default:'Belfast';not_null"`
 	LastLogin     time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP;not_null"`
 	RoomID        uint32    `gorm:"default:0;not_null"`
 	ExchangeCount uint32    `gorm:"default:0;not_null"` // Number of times the commander has built ships, can be exchanged for UR ships
+	CreatedAt     time.Time
 
 	Punishments    []Punishment        `gorm:"foreignKey:PunishedID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	Ships          []OwnedShip         `gorm:"foreignKey:OwnerID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
@@ -31,6 +34,8 @@ type Commander struct {
 	Mails          []Mail              `gorm:"foreignKey:ReceiverID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	OwnedSkins     []OwnedSkin         `gorm:"foreignKey:CommanderID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	Secretaries    []*OwnedShip        `gorm:"-"`
+	OwnedStories   []OwnedStory        `gorm:"foreignKey:CommanderID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	OwnedAwards    []OwnedAward        `gorm:"foreignKey:CommanderID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 
 	// These maps will be populated by the Load() method
 	OwnedShipsMap     map[uint32]*OwnedShip         `gorm:"-"`
@@ -139,11 +144,15 @@ func (c *Commander) AddShip(shipId uint32) (protobuf.SHIPINFO, error) {
 func (c *Commander) ConsumeItem(itemId uint32, count uint32) error {
 	// check if the commander has enough of the item
 	if item, ok := c.CommanderItemsMap[itemId]; ok {
+		logger.LogEvent("test", "test3_1", "call count: "+strconv.Itoa(int(count)), logger.LOG_LEVEL_INFO)
 		if item.Count >= count {
 			item.Count -= count
+			logger.LogEvent("test", "test3_2", "ret count: "+strconv.Itoa(int(item.Count)), logger.LOG_LEVEL_INFO)
 			return GormDB.Save(&item).Error
 		}
+		logger.LogEvent("test", "test3_3", "call count: "+strconv.Itoa(int(count)), logger.LOG_LEVEL_INFO)
 	} else if miscItem, ok := c.MiscItemsMap[itemId]; ok {
+		logger.LogEvent("test", "test3_222", "call count: "+strconv.Itoa(int(count)), logger.LOG_LEVEL_INFO)
 		if miscItem.Data >= count {
 			miscItem.Data -= count
 			return GormDB.Save(&miscItem).Error
@@ -566,6 +575,7 @@ func (c *Commander) UpdateSecretaries(shipIds []uint32) error {
 
 // Add n exchange count to the commander, n represents the number of built ships, caps at 400
 func (c *Commander) IncrementExchangeCount(n uint32) error {
+	return nil
 	c.ExchangeCount += n
 	if c.ExchangeCount > 400 {
 		c.ExchangeCount = 400
@@ -580,4 +590,21 @@ func (c *Commander) Like(groupId uint32) error {
 		LikerID: c.CommanderID,
 	}
 	return GormDB.Create(&like).Error
+}
+
+func (c *Commander) AddStory(storyId uint32) error {
+	story := OwnedStory{
+		CommanderID: c.CommanderID,
+		StoryID:     storyId,
+	}
+	return GormDB.Create(&story).Error
+}
+
+func (c *Commander) AddAward(typeId uint32, awardId uint32) error {
+	award := OwnedAward{
+		CommanderID: c.CommanderID,
+		TypeID:      typeId,
+		AwardID:     awardId,
+	}
+	return GormDB.Create(&award).Error
 }

@@ -41,7 +41,7 @@ func ShoppingCommandAnswer(buffer *[]byte, client *connection.Client) (int, int,
 		Result: proto.Uint32(0),
 	}
 
-	if !client.Commander.HasEnoughResource(shopOffer.ResourceID, shopOffer.ResourceNumber) {
+	if !client.Commander.HasEnoughResource(shopOffer.ResourceID, shopOffer.ResourceNumber*boughtOffer.GetNumber()) {
 		logger.LogEvent("Shop", "Purchase", fmt.Sprintf("uid=%d does not have enough resources", client.Commander.CommanderID), logger.LOG_LEVEL_INFO)
 		response.Result = proto.Uint32(1)
 		return 0, 16002, nil
@@ -52,20 +52,20 @@ func ShoppingCommandAnswer(buffer *[]byte, client *connection.Client) (int, int,
 	switch shopOffer.Type {
 	case 1: // bought resources
 		for i, resourceId := range shopOffer.Effects {
-			client.Commander.AddResource(uint32(resourceId), shopOffer.Number)
+			client.Commander.AddResource(uint32(resourceId), shopOffer.Number*boughtOffer.GetNumber())
 			response.DropList[i] = &protobuf.DROPINFO{
 				Type:   proto.Uint32(shopOffer.Type), // ressource
 				Id:     proto.Uint32(uint32(resourceId)),
-				Number: proto.Uint32(shopOffer.Number),
+				Number: proto.Uint32(shopOffer.Number * boughtOffer.GetNumber()),
 			}
 		}
 	case 2: // packs
 		for i, packId := range shopOffer.Effects {
-			client.Commander.AddItem(uint32(packId), shopOffer.Number)
+			client.Commander.AddItem(uint32(packId), shopOffer.Number*boughtOffer.GetNumber())
 			response.DropList[i] = &protobuf.DROPINFO{
 				Type:   proto.Uint32(shopOffer.Type), // item
 				Id:     proto.Uint32(uint32(packId)),
-				Number: proto.Uint32(shopOffer.Number),
+				Number: proto.Uint32(shopOffer.Number * boughtOffer.GetNumber()),
 			}
 		}
 	case 4: // merit shop, to implement

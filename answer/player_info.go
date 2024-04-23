@@ -23,7 +23,7 @@ func PlayerInfo(buffer *[]byte, client *connection.Client) (int, int, error) {
 		ChildDisplay:       proto.Uint32(1004),
 		AttackCount:        proto.Uint32(0),
 		WinCount:           proto.Uint32(0),
-		Adv:                proto.String(""),
+		Adv:                proto.String(client.Commander.Adv),
 		ShipBagMax:         proto.Uint32(250),
 		EquipBagMax:        proto.Uint32(250),
 		GmFlag:             proto.Uint32(0),
@@ -35,7 +35,7 @@ func PlayerInfo(buffer *[]byte, client *connection.Client) (int, int, error) {
 		BuyOilCount:        proto.Uint32(0),
 		ChatRoomId:         proto.Uint32(0),
 		MaxRank:            proto.Uint32(0),
-		RegisterTime:       proto.Uint32(0),
+		RegisterTime:       proto.Uint32(uint32(client.Commander.CreatedAt.Unix())),
 		ShipCount:          proto.Uint32(uint32(len(client.Commander.Ships))),
 		AccPayLv:           proto.Uint32(0),
 		GuildWaitTime:      proto.Uint32(0),
@@ -74,6 +74,11 @@ func PlayerInfo(buffer *[]byte, client *connection.Client) (int, int, error) {
 			Type: proto.Uint32(resource.ResourceID),
 			Num:  proto.Uint32(resource.Amount),
 		}
+	}
+
+	response.StoryList = make([]uint32, len(client.Commander.OwnedStories))
+	for _, v := range client.Commander.OwnedStories {
+		response.StoryList = append(response.StoryList, v.StoryID)
 	}
 
 	response.ChatRoomId = proto.Uint32(client.Commander.RoomID)

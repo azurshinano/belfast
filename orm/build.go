@@ -2,6 +2,8 @@ package orm
 
 import (
 	"errors"
+	"github.com/ggmolly/belfast/logger"
+	"strconv"
 	"time"
 
 	"github.com/ggmolly/belfast/protobuf"
@@ -76,6 +78,7 @@ func (b *Build) Consume(shipId uint32, commander *Commander) (*protobuf.SHIPINFO
 
 // QuickFinishes a build, checks if the passed commander has enough quick finishers
 func (b *Build) QuickFinish(commander *Commander) error {
+	logger.LogEvent("test", "test2", strconv.Itoa(int(b.ID)), logger.LOG_LEVEL_INFO)
 	if !commander.HasEnoughItem(15003, 1) {
 		return ErrorNotEnoughQuickFinishers
 	}
