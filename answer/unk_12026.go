@@ -2,11 +2,14 @@ package answer
 
 import (
 	"github.com/ggmolly/belfast/connection"
+	"github.com/ggmolly/belfast/logger"
+	"strconv"
 
 	"github.com/ggmolly/belfast/protobuf"
 	"google.golang.org/protobuf/proto"
 )
 
+// 点击获取舰船
 func UNK_12026(buffer *[]byte, client *connection.Client) (int, int, error) {
 	var data protobuf.CS_12025
 	err := proto.Unmarshal(*buffer, &data)
@@ -29,18 +32,13 @@ func UNK_12026(buffer *[]byte, client *connection.Client) (int, int, error) {
 			maxPos = pos
 		}
 	}
-	// since the game is using lua, the indexes start at 1
-	minPos -= 1
-	maxPos -= 1
-	if maxPos == minPos {
-		maxPos += 1
-	}
 	builds, err := client.Commander.GetBuildRange(minPos, maxPos)
 	if err != nil {
 		return 0, 12025, err
 	}
 
 	for i := range data.GetPosList() {
+		logger.LogEvent("test", "test11111", strconv.Itoa(int(i)), logger.LOG_LEVEL_INFO)
 		ship, err := builds[i].Consume(builds[i].ShipID, client.Commander)
 		if err != nil {
 			return 0, 12025, err

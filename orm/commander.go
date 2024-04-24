@@ -364,8 +364,8 @@ func (c *Commander) GetBuildRange(minPos, maxPos uint32) ([]Build, error) {
 	var builds []Build
 	err := GormDB.
 		Where("builder_id = ?", c.CommanderID).
-		Offset(int(minPos)).
-		Limit(int(maxPos - minPos + 1)). // stupid hack to select a range of rows
+		Offset(int(minPos) - 1).
+		Limit(int(maxPos) - int(minPos) + 1). // stupid hack to select a range of rows
 		Order("id ASC").
 		Find(&builds).
 		Error

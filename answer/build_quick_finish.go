@@ -8,6 +8,7 @@ import (
 	"strconv"
 )
 
+// 使用快速完成工具
 func BuildQuickFinish(buffer *[]byte, client *connection.Client) (int, int, error) {
 	var data protobuf.CS_12008
 	err := proto.Unmarshal(*buffer, &data)
@@ -24,9 +25,6 @@ func BuildQuickFinish(buffer *[]byte, client *connection.Client) (int, int, erro
 		if pos > maxPos {
 			maxPos = pos
 		}
-	}
-	if maxPos == minPos {
-		maxPos += 1
 	}
 
 	logger.LogEvent("test", "test0", strconv.Itoa(int(minPos))+","+strconv.Itoa(int(maxPos)), logger.LOG_LEVEL_INFO)
