@@ -7,8 +7,6 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-var validSC12001 protobuf.SC_12001
-
 func boolToUint32(b bool) uint32 {
 	if b {
 		return 1
@@ -55,6 +53,7 @@ func PlayerDock(buffer *[]byte, client *connection.Client) (int, int, error) {
 			Spweapon:       nil,
 		})
 	}
-	validSC12001.Shiplist = shipList
-	return client.SendMessage(12001, &validSC12001)
+	var response protobuf.SC_12001
+	response.Shiplist = shipList
+	return client.SendMessage(12001, &response)
 }

@@ -11,8 +11,8 @@ import (
 )
 
 func GiveItem(buffer *[]byte, client *connection.Client) (int, int, error) {
-	var payload protobuf.CS_11202
-	err := proto.Unmarshal(*buffer, &payload)
+	var data protobuf.CS_11202
+	err := proto.Unmarshal(*buffer, &data)
 	if err != nil {
 		return 0, 11203, err
 	}
@@ -20,7 +20,7 @@ func GiveItem(buffer *[]byte, client *connection.Client) (int, int, error) {
 		fmt.Sprintf(
 			"uid=%d asked for activity_id=%d",
 			client.Commander.CommanderID,
-			*payload.ActivityId,
+			*data.ActivityId,
 		), logger.LOG_LEVEL_DEBUG)
 
 	// Answer with random stuff rn

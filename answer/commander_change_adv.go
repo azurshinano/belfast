@@ -12,7 +12,7 @@ func CommanderChangeAdv(buffer *[]byte, client *connection.Client) (int, int, er
 	if err := proto.Unmarshal(*buffer, &data); err != nil {
 		return 0, 11010, err
 	}
-	response := protobuf.SC_11008{
+	response := protobuf.SC_11010{
 		Result: proto.Uint32(0),
 	}
 

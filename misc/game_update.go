@@ -74,7 +74,6 @@ func hashFromCache() (HashMap, error) {
 		return nil, errVersionMismatch
 	}
 	return cache.Hashes, nil
-
 }
 
 func GetGameHashes() HashMap {

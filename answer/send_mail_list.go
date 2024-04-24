@@ -8,11 +8,11 @@ import (
 )
 
 func SendMailList(buffer *[]byte, client *connection.Client) (int, int, error) {
-	var mailList protobuf.SC_30003
+	var response protobuf.SC_30003
 
-	mailList.MailList = make([]*protobuf.MAIL_SIGLE, len(client.Commander.Mails))
+	response.MailList = make([]*protobuf.MAIL_SIGLE, len(client.Commander.Mails))
 	for i, mail := range client.Commander.Mails {
-		mailList.MailList[i] = &protobuf.MAIL_SIGLE{
+		response.MailList[i] = &protobuf.MAIL_SIGLE{
 			Id:         proto.Uint32(mail.ID),
 			ReadFlag:   proto.Uint32(boolToUint32(mail.Read) + boolToUint32(mail.AttachmentsCollected)),
 			Date:       proto.Uint32(uint32(mail.Date.Unix())),
@@ -20,14 +20,14 @@ func SendMailList(buffer *[]byte, client *connection.Client) (int, int, error) {
 			ImpFlag:    proto.Uint32(boolToUint32(mail.IsImportant)),
 		}
 		if mail.CustomSender != nil {
-			mailList.MailList[i].Title = proto.String(mail.Title + "||" + *mail.CustomSender)
+			response.MailList[i].Title = proto.String(mail.Title + "||" + *mail.CustomSender)
 		} else {
-			mailList.MailList[i].Title = proto.String(mail.Title)
+			response.MailList[i].Title = proto.String(mail.Title)
 		}
 		if len(mail.Attachments) > 0 { // only if the mail has attachments, otherwise we set as nil (default)
-			mailList.MailList[i].AttachmentList = make([]*protobuf.ATTACHMENT, len(mail.Attachments))
+			response.MailList[i].AttachmentList = make([]*protobuf.ATTACHMENT, len(mail.Attachments))
 			for j, attachment := range mail.Attachments {
-				mailList.MailList[i].AttachmentList[j] = &protobuf.ATTACHMENT{
+				response.MailList[i].AttachmentList[j] = &protobuf.ATTACHMENT{
 					Type:   proto.Uint32(attachment.Type),
 					Id:     proto.Uint32(attachment.ItemID),
 					Number: proto.Uint32(0),
@@ -35,5 +35,5 @@ func SendMailList(buffer *[]byte, client *connection.Client) (int, int, error) {
 			}
 		}
 	}
-	return client.SendMessage(30003, &mailList)
+	return client.SendMessage(30003, &response)
 }

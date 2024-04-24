@@ -10,7 +10,7 @@ func BuildQuickFinish(buffer *[]byte, client *connection.Client) (int, int, erro
 	var data protobuf.CS_12008
 	err := proto.Unmarshal(*buffer, &data)
 	if err != nil {
-		return 0, 12008, err
+		return 0, 12009, err
 	}
 
 	var minPos uint32 = 999999
@@ -26,17 +26,17 @@ func BuildQuickFinish(buffer *[]byte, client *connection.Client) (int, int, erro
 
 	builds, err := client.Commander.GetBuildRange(minPos, maxPos)
 	if err != nil {
-		return 0, 12008, err
+		return 0, 12009, err
 	}
 
 	for _, build := range builds {
 		if err := build.QuickFinish(client.Commander); err != nil {
-			return 0, 12008, err
+			return 0, 12009, err
 		}
 	}
 
 	if err != nil {
-		return 0, 12008, err
+		return 0, 12009, err
 	}
 
 	response := protobuf.SC_12009{

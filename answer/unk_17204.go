@@ -10,12 +10,12 @@ import (
 )
 
 func UNK_17204(buffer *[]byte, client *connection.Client) (int, int, error) {
-	var payload protobuf.CS_17203
-	err := proto.Unmarshal((*buffer), &payload)
+	var data protobuf.CS_17203
+	err := proto.Unmarshal((*buffer), &data)
 	if err != nil {
 		return 0, 17204, err
 	}
 	var response protobuf.SC_17204
-	log.Println("Client asked for type:", payload.GetType())
+	log.Println("Client asked for type:", data.GetType())
 	return client.SendMessage(17204, &response)
 }

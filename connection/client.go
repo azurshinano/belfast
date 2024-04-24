@@ -100,8 +100,7 @@ func (client *Client) CreateCommander(arg2 uint32) (uint32, error) {
 }
 
 func (client *Client) GetCommander(accountId uint32) error {
-	err := orm.GormDB.Where("account_id = ?", accountId).First(&client.Commander).Error
-	return err
+	return orm.GormDB.Where("account_id = ?", accountId).First(&client.Commander).Error
 }
 
 func (client *Client) Kill() {
@@ -110,7 +109,6 @@ func (client *Client) Kill() {
 	}
 	if err := syscall.Close(client.FD); err != nil {
 		logger.LogEvent("Client", "Kill()", fmt.Sprintf("%s:%d -> %v", client.IP, client.Port, err), logger.LOG_LEVEL_ERROR)
-		return
 	}
 }
 

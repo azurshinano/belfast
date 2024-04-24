@@ -11,7 +11,7 @@ func ShipBuild(buffer *[]byte, client *connection.Client) (int, int, error) {
 	var data protobuf.CS_12002
 	err := proto.Unmarshal(*buffer, &data)
 	if err != nil {
-		return 0, 12002, err
+		return 0, 12003, err
 	}
 	// Count = amount of ships to build
 	// Costtype = 0 = wisdom cube, 1 = tickets

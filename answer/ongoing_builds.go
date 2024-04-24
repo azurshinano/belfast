@@ -11,7 +11,12 @@ import (
 
 func OngoingBuilds(buffer *[]byte, client *connection.Client) (int, int, error) {
 	buildInfos := make([]*protobuf.BUILDINFO, len(client.Commander.Builds))
-	for i, work := range client.Commander.Builds {
+	builds, err := client.Commander.GetBuildRange(1, uint32(len(client.Commander.Builds)))
+	if err != nil {
+		return 0, 12024, err
+	}
+
+	for i, work := range builds {
 		buildInfos[i] = &protobuf.BUILDINFO{
 			// Time is the number of seconds between now and the finish time
 			Time:       proto.Uint32(uint32(time.Until(work.FinishesAt).Seconds())),

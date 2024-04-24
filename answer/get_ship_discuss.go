@@ -7,14 +7,14 @@ import (
 )
 
 func GetShipDiscuss(buffer *[]byte, client *connection.Client) (int, int, error) {
-	var payload protobuf.CS_17101
-	if err := proto.Unmarshal(*buffer, &payload); err != nil {
+	var data protobuf.CS_17101
+	if err := proto.Unmarshal(*buffer, &data); err != nil {
 		return 0, 17102, err
 	}
 	var response protobuf.SC_17102
 
 	response.ShipDiscuss = &protobuf.SHIP_DISCUSS_INFO{
-		ShipGroupId:       payload.ShipGroupId,
+		ShipGroupId:       data.ShipGroupId,
 		DiscussCount:      proto.Uint32(0),
 		HeartCount:        proto.Uint32(0),
 		DailyDiscussCount: proto.Uint32(0),

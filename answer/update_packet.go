@@ -24,11 +24,10 @@ var (
 
 // Answer to a CS_10800 packet with a SC_10801 packet + hashes
 func Forge_SC10801(buffer *[]byte, client *connection.Client) (int, int, error) {
-	const packetId = 10801
-	var updateCheck protobuf.CS_10800
-	err := proto.Unmarshal(*buffer, &updateCheck)
+	var data protobuf.CS_10800
+	err := proto.Unmarshal(*buffer, &data)
 	if err != nil {
-		return 0, packetId, err
+		return 0, 10801, err
 	}
 
 	if len(versions) == 0 {
@@ -56,17 +55,17 @@ func Forge_SC10801(buffer *[]byte, client *connection.Client) (int, int, error) 
 		// who would even do such a thing
 	}
 
-	resolvedPlatform, ok := platformMap[updateCheck.GetPlatform()]
+	resolvedPlatform, ok := platformMap[data.GetPlatform()]
 	if !ok {
 		resolvedPlatform = "Unknown"
 	}
 
-	url, ok := consts.GamePlatformUrl[belfastRegion][updateCheck.GetPlatform()]
+	url, ok := consts.GamePlatformUrl[belfastRegion][data.GetPlatform()]
 	if !ok {
-		return 0, 10801, fmt.Errorf("unknown platform '%s' (id='%s')", resolvedPlatform, updateCheck.GetPlatform())
+		return 0, 10801, fmt.Errorf("unknown platform '%s' (id='%s')", resolvedPlatform, data.GetPlatform())
 	} else {
 		response.Url = proto.String(url)
 	}
 
-	return client.SendMessage(packetId, &response)
+	return client.SendMessage(10801, &response)
 }

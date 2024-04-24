@@ -10,7 +10,7 @@ func BuildFinish(buffer *[]byte, client *connection.Client) (int, int, error) {
 	var data protobuf.CS_12025
 	err := proto.Unmarshal(*buffer, &data)
 	if err != nil {
-		return 0, 12025, err
+		return 0, 12026, err
 	}
 
 	response := protobuf.SC_12026{
@@ -30,13 +30,13 @@ func BuildFinish(buffer *[]byte, client *connection.Client) (int, int, error) {
 	}
 	builds, err := client.Commander.GetBuildRange(minPos, maxPos)
 	if err != nil {
-		return 0, 12025, err
+		return 0, 12026, err
 	}
 
 	for i := range data.GetPosList() {
 		ship, err := builds[i].Consume(builds[i].ShipID, client.Commander)
 		if err != nil {
-			return 0, 12025, err
+			return 0, 12026, err
 		}
 		response.ShipList[i] = ship
 	}

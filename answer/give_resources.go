@@ -9,15 +9,15 @@ import (
 
 func GiveResources(buffer *[]byte, client *connection.Client) (int, int, error) {
 	// We won't verify the packet, just send whatever the client asked for
-	var payload protobuf.CS_11013
-	err := proto.Unmarshal(*buffer, &payload)
+	var data protobuf.CS_11013
+	err := proto.Unmarshal(*buffer, &data)
 	if err != nil {
-		return 0, 11013, err
+		return 0, 11014, err
 	}
 
 	var number uint32
 	var fieldId uint32
-	switch payload.GetType() {
+	switch data.GetType() {
 	case 1: // Number of resource #7
 		number = client.Commander.GetResourceCount(7)
 		fieldId = 7
@@ -29,7 +29,7 @@ func GiveResources(buffer *[]byte, client *connection.Client) (int, int, error) 
 	res := proto.Uint32(0)
 
 	// Add the requested resource
-	if err := client.Commander.AddResource(payload.GetType(), number); err != nil {
+	if err := client.Commander.AddResource(data.GetType(), number); err != nil {
 		res = proto.Uint32(1)
 	}
 	// Remove the field resource

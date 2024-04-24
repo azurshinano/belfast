@@ -7,12 +7,12 @@ import (
 )
 
 func UpdateShipLike(buffer *[]byte, client *connection.Client) (int, int, error) {
-	var payload protobuf.CS_17107
-	if err := proto.Unmarshal(*buffer, &payload); err != nil {
+	var data protobuf.CS_17107
+	if err := proto.Unmarshal(*buffer, &data); err != nil {
 		return 0, 17108, err
 	}
 	response := protobuf.SC_17108{
-		Result: proto.Uint32(boolToUint32(client.Commander.Like(*payload.ShipGroupId) != nil)),
+		Result: proto.Uint32(boolToUint32(client.Commander.Like(*data.ShipGroupId) != nil)),
 	}
 	return client.SendMessage(17108, &response)
 }

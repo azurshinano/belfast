@@ -4,16 +4,9 @@ import (
 	"github.com/ggmolly/belfast/connection"
 
 	"github.com/ggmolly/belfast/protobuf"
-	"google.golang.org/protobuf/proto"
 )
 
-var validSC13506 protobuf.SC_13506
-
 func UNK_13506(buffer *[]byte, client *connection.Client) (int, int, error) {
-	return client.SendMessage(13506, &validSC13506)
-}
-
-func init() {
-	data := []byte{}
-	proto.Unmarshal(data, &validSC13506)
+	var response protobuf.SC_13506
+	return client.SendMessage(13506, &response)
 }

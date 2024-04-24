@@ -487,41 +487,6 @@ func (c *Commander) RetireShips(shipIds *[]uint32) error {
 	logger.LogEvent("RetireShip", "Success", fmt.Sprintf("uid=%d, coins: %d, medals: %d, cores: %d", c.CommanderID, coins, totalMedals, specializedCores), logger.LOG_LEVEL_INFO)
 	return c.DestroyShips(*shipIds)
 }
-func (c *Commander) ProposeShip(shipId uint32) *protobuf.SC_12033 {
-	var response protobuf.SC_12033
-	response.Result = proto.Uint32(0)
-	response.Time = proto.Uint32(uint32(time.Now().Unix()))
-	// Check if the ship exists
-	ship, ok := c.OwnedShipsMap[shipId]
-	if !ok {
-		logger.LogEvent("Dock", "Propose", fmt.Sprintf("uid=%d has proposed ship id=%d, but it doesn't exist", c.CommanderID, shipId), logger.LOG_LEVEL_ERROR)
-		response.Result = proto.Uint32(1)
-	}
-	// Check if the ship is already proposed
-	if ship.Propose {
-		logger.LogEvent("Dock", "Propose", fmt.Sprintf("uid=%d has proposed ship id=%d, but it's already proposed", c.CommanderID, shipId), logger.LOG_LEVEL_ERROR)
-		response.Result = proto.Uint32(1)
-	}
-	// Check if the commander has a promise ring (id=15006)
-	if !c.HasEnoughItem(15006, 1) {
-		logger.LogEvent("Dock", "Propose", fmt.Sprintf("uid=%d has proposed ship id=%d, but doesn't have a promise ring", c.CommanderID, shipId), logger.LOG_LEVEL_ERROR)
-		response.Result = proto.Uint32(1)
-	}
-	// Consume the promise ring
-	err := c.ConsumeItem(15006, 1)
-	if err != nil {
-		logger.LogEvent("Dock", "Propose", fmt.Sprintf("uid=%d has proposed ship id=%d, but failed to consume the promise ring: %s", c.CommanderID, shipId, err.Error()), logger.LOG_LEVEL_ERROR)
-		response.Result = proto.Uint32(1)
-	}
-	// Propose the ship
-	err = ship.ProposeShip()
-	if err != nil {
-		logger.LogEvent("Dock", "Propose", fmt.Sprintf("uid=%d has proposed ship id=%d, but it failed: %s", c.CommanderID, shipId, err.Error()), logger.LOG_LEVEL_ERROR)
-		response.Result = proto.Uint32(1)
-	}
-	logger.LogEvent("Dock", "Propose", fmt.Sprintf("uid=%d has proposed ship id=%d successfully", c.CommanderID, shipId), logger.LOG_LEVEL_INFO)
-	return &response
-}
 
 // UpdateRoom changes the commander's room id
 func (c *Commander) UpdateRoom(roomID uint32) error {
@@ -570,7 +535,6 @@ func (c *Commander) UpdateSecretaries(shipIds []uint32) error {
 
 // Add n exchange count to the commander, n represents the number of built ships, caps at 400
 func (c *Commander) IncrementExchangeCount(n uint32) error {
-	return nil
 	c.ExchangeCount += n
 	if c.ExchangeCount > 400 {
 		c.ExchangeCount = 400
