@@ -3,7 +3,6 @@ package orm
 import (
 	"fmt"
 	"sort"
-	"strconv"
 	"time"
 
 	"github.com/ggmolly/belfast/logger"
@@ -144,15 +143,11 @@ func (c *Commander) AddShip(shipId uint32) (protobuf.SHIPINFO, error) {
 func (c *Commander) ConsumeItem(itemId uint32, count uint32) error {
 	// check if the commander has enough of the item
 	if item, ok := c.CommanderItemsMap[itemId]; ok {
-		logger.LogEvent("test", "test3_1", "call count: "+strconv.Itoa(int(count)), logger.LOG_LEVEL_INFO)
 		if item.Count >= count {
 			item.Count -= count
-			logger.LogEvent("test", "test3_2", "ret count: "+strconv.Itoa(int(item.Count)), logger.LOG_LEVEL_INFO)
 			return GormDB.Save(&item).Error
 		}
-		logger.LogEvent("test", "test3_3", "call count: "+strconv.Itoa(int(count)), logger.LOG_LEVEL_INFO)
 	} else if miscItem, ok := c.MiscItemsMap[itemId]; ok {
-		logger.LogEvent("test", "test3_222", "call count: "+strconv.Itoa(int(count)), logger.LOG_LEVEL_INFO)
 		if miscItem.Data >= count {
 			miscItem.Data -= count
 			return GormDB.Save(&miscItem).Error

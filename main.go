@@ -157,8 +157,8 @@ func init() {
 	// Build
 	packets.RegisterPacketHandler(12002, []packets.PacketHandler{answer.ShipBuild})
 	packets.RegisterPacketHandler(12008, []packets.PacketHandler{answer.BuildQuickFinish})
-	packets.RegisterPacketHandler(12043, []packets.PacketHandler{answer.BuildFinish})
-	packets.RegisterPacketHandler(12025, []packets.PacketHandler{answer.UNK_12026})
+	packets.RegisterPacketHandler(12043, []packets.PacketHandler{answer.BuildGetTemplates})
+	packets.RegisterPacketHandler(12025, []packets.PacketHandler{answer.BuildFinish})
 	packets.RegisterPacketHandler(12045, []packets.PacketHandler{answer.ConfirmShip})
 
 	// Exchange ships

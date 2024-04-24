@@ -2,13 +2,10 @@ package answer
 
 import (
 	"github.com/ggmolly/belfast/connection"
-	"github.com/ggmolly/belfast/logger"
 	"github.com/ggmolly/belfast/protobuf"
 	"google.golang.org/protobuf/proto"
-	"strconv"
 )
 
-// 使用快速完成工具
 func BuildQuickFinish(buffer *[]byte, client *connection.Client) (int, int, error) {
 	var data protobuf.CS_12008
 	err := proto.Unmarshal(*buffer, &data)
@@ -27,12 +24,10 @@ func BuildQuickFinish(buffer *[]byte, client *connection.Client) (int, int, erro
 		}
 	}
 
-	logger.LogEvent("test", "test0", strconv.Itoa(int(minPos))+","+strconv.Itoa(int(maxPos)), logger.LOG_LEVEL_INFO)
 	builds, err := client.Commander.GetBuildRange(minPos, maxPos)
 	if err != nil {
 		return 0, 12008, err
 	}
-	logger.LogEvent("test", "test1", strconv.Itoa(len(builds)), logger.LOG_LEVEL_INFO)
 
 	for _, build := range builds {
 		if err := build.QuickFinish(client.Commander); err != nil {
