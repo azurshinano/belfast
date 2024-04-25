@@ -76,9 +76,18 @@ func GetRandomPoolShip(poolId uint32) (Ship, error) {
 		rarity = 2 // Common
 	}
 	var randomShip Ship
-	err := GormDB.
-		Where("pool_id = ? AND rarity_id = ?", poolId, rarity).
-		Order("RANDOM()").
-		First(&randomShip).Error
+	var err error
+	if poolId == 0 {
+		// Get from all poolId
+		err = GormDB.
+			Where("pool_id IN ? AND rarity_id = ?", []uint32{1, 2, 3}, rarity).
+			Order("RANDOM()").
+			First(&randomShip).Error
+	} else {
+		err = GormDB.
+			Where("pool_id = ? AND rarity_id = ?", poolId, rarity).
+			Order("RANDOM()").
+			First(&randomShip).Error
+	}
 	return randomShip, err
 }

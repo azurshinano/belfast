@@ -152,7 +152,7 @@ func InitDatabase() bool {
 		tx.Save(&Server{
 			ID:      1,
 			Name:    "Belfast",
-			IP:      "localhost",
+			IP:      "192.168.5.9",
 			Port:    80,
 			StateID: proto.Uint32(1),
 		})

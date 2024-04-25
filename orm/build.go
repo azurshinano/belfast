@@ -70,7 +70,6 @@ func (b *Build) Consume(shipId uint32, commander *Commander) (*protobuf.SHIPINFO
 	if err != nil {
 		return nil, err
 	}
-	commander.IncrementExchangeCount(uint32(len(commander.Builds)))
 	return &ship, nil
 }
 

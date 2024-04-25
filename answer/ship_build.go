@@ -25,10 +25,10 @@ func ShipBuild(buffer *[]byte, client *connection.Client) (int, int, error) {
 		cubeCost = 1
 	case 3: // Heavy
 		goldCost = 1500
-		cubeCost = 3
+		cubeCost = 2
 	case 1: // Special
 		goldCost = 1500
-		cubeCost = 3
+		cubeCost = 2
 	default:
 		response.Result = proto.Uint32(1) // unknown pool id
 		return client.SendMessage(12003, &response)
@@ -66,5 +66,6 @@ func ShipBuild(buffer *[]byte, client *connection.Client) (int, int, error) {
 	response.Result = proto.Uint32(0)
 	client.Commander.ConsumeItem(20001, cubeCost) // consume cubes
 	client.Commander.ConsumeResource(1, goldCost) // consume gold
+	client.Commander.IncrementExchangeCount(cubeCost)
 	return client.SendMessage(12003, &response)
 }

@@ -119,9 +119,10 @@ func init() {
 		answer.GameMailbox,               // SC_30001
 		answer.CommanderFriendList,       // SC_50000
 		// answer.JuustagramData,            // SC_11700
-		answer.Activities,          // SC_11200
-		answer.PermanentActivites,  // SC_11210
-		answer.GameNotices,         // SC_11300
+		answer.Activities,         // SC_11200
+		answer.PermanentActivites, // SC_11210
+		answer.GameNotices,        // SC_11300
+		// TODO: ADD ShopsProxy
 		answer.SendPlayerShipCount, // SC_11002 -> Will trigger a scene change in the client
 	})
 	packets.RegisterPacketHandler(25026, []packets.PacketHandler{answer.UNK_25027})
@@ -163,6 +164,7 @@ func init() {
 
 	// Exchange ships
 	packets.RegisterPacketHandler(12047, []packets.PacketHandler{answer.ExchangeShip})
+	packets.RegisterPacketHandler(16100, []packets.PacketHandler{answer.ExchangeShipBuild})
 
 	// Mails
 	packets.RegisterPacketHandler(30002, []packets.PacketHandler{answer.SendMailList})
