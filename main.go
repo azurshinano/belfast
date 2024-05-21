@@ -123,8 +123,7 @@ func init() {
 		answer.PermanentActivites, // SC_11210
 		answer.GameNotices,        // SC_11300
 		// TODO: ADD ShopsProxy
-		answer.ShopShamAndFragmentAnswer, // SC_16200
-		answer.SendPlayerShipCount,       // SC_11002 -> Will trigger a scene change in the client
+		answer.SendPlayerShipCount, // SC_11002 -> Will trigger a scene change in the client
 	})
 	packets.RegisterPacketHandler(25026, []packets.PacketHandler{answer.UNK_25027})
 	packets.RegisterPacketHandler(34501, []packets.PacketHandler{answer.UNK_34502})

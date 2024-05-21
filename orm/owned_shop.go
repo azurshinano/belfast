@@ -36,7 +36,7 @@ type OwnedGuildShop struct {
 	ShopOffer ShopOffer `gorm:"foreignKey:ShopOfferID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
 
-// 舰队商店
+// 勋章商店
 type OwnedMedalShop struct {
 	CommanderID uint32 `gorm:"not_null;primaryKey"`
 	// TODO...

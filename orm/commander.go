@@ -24,17 +24,18 @@ type Commander struct {
 	ExchangeCount uint32    `gorm:"default:0;not_null"` // Number of times the commander has built ships, can be exchanged for UR ships
 	CreatedAt     time.Time
 
-	Punishments    []Punishment        `gorm:"foreignKey:PunishedID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	Ships          []OwnedShip         `gorm:"foreignKey:OwnerID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	Items          []CommanderItem     `gorm:"foreignKey:CommanderID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	MiscItems      []CommanderMiscItem `gorm:"foreignKey:CommanderID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	OwnedResources []OwnedResource     `gorm:"foreignKey:CommanderID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	Builds         []Build             `gorm:"foreignKey:BuilderID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	Mails          []Mail              `gorm:"foreignKey:ReceiverID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	OwnedSkins     []OwnedSkin         `gorm:"foreignKey:CommanderID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	Secretaries    []*OwnedShip        `gorm:"-"`
-	OwnedStories   []OwnedStory        `gorm:"foreignKey:CommanderID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	OwnedAwards    []OwnedAward        `gorm:"foreignKey:CommanderID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Punishments     []Punishment        `gorm:"foreignKey:PunishedID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Ships           []OwnedShip         `gorm:"foreignKey:OwnerID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Items           []CommanderItem     `gorm:"foreignKey:CommanderID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	MiscItems       []CommanderMiscItem `gorm:"foreignKey:CommanderID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	OwnedResources  []OwnedResource     `gorm:"foreignKey:CommanderID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Builds          []Build             `gorm:"foreignKey:BuilderID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Mails           []Mail              `gorm:"foreignKey:ReceiverID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	OwnedSkins      []OwnedSkin         `gorm:"foreignKey:CommanderID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Secretaries     []*OwnedShip        `gorm:"-"`
+	OwnedStories    []OwnedStory        `gorm:"foreignKey:CommanderID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	OwnedAwards     []OwnedAward        `gorm:"foreignKey:CommanderID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	OwnedAppreciate []OwnedAppreciate   `gorm:"foreignKey:CommanderID;references:CommanderID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 
 	// These maps will be populated by the Load() method
 	OwnedShipsMap     map[uint32]*OwnedShip         `gorm:"-"`
@@ -566,4 +567,26 @@ func (c *Commander) AddAward(typeId uint32, awardId uint32) error {
 		AwardID:     awardId,
 	}
 	return GormDB.Create(&award).Error
+}
+
+func (c *Commander) AddAppreciate(typeId uint32, appreciateId uint32) error {
+	appreciate := OwnedAppreciate{
+		CommanderID:    c.CommanderID,
+		AppreciateType: typeId,
+		AppreciateID:   appreciateId,
+	}
+	return GormDB.Create(&appreciate).Error
+}
+
+func (c *Commander) GetAppreciate(typeId uint32) (ids []uint32) {
+	for _, v := range c.OwnedAppreciate {
+		if v.AppreciateType == typeId {
+			ids = append(ids, v.AppreciateID)
+		}
+	}
+	return
+}
+
+func (c *Commander) RemoveAppreciate(typeId uint32, appreciateId uint32) error {
+	return GormDB.Where("commander_id = ? AND appreciate_type = ? AND appreciate_id = ?", c.CommanderID, typeId, appreciateId).Delete(&OwnedAppreciate{}).Error
 }
