@@ -590,3 +590,25 @@ func (c *Commander) GetAppreciate(typeId uint32) (ids []uint32) {
 func (c *Commander) RemoveAppreciate(typeId uint32, appreciateId uint32) error {
 	return GormDB.Where("commander_id = ? AND appreciate_type = ? AND appreciate_id = ?", c.CommanderID, typeId, appreciateId).Delete(&OwnedAppreciate{}).Error
 }
+
+func (c *Commander) RefreshShopStreet() error {
+	err := GormDB.Where("commander_id = ? ", c.CommanderID).Delete(&OwnedStressShop{}).Error
+	if err != nil {
+		return err
+	}
+	var randomShopOffer []ShopOffer
+	err = GormDB.Where("genre = 'shopping_street'").Order("RANDOM()").Limit(10).Find(&randomShopOffer).Error
+	if err != nil {
+		return err
+	}
+	var ownedStressShop []OwnedStressShop
+	for _, v := range randomShopOffer {
+		ownedStressShop = append(ownedStressShop, OwnedStressShop{
+			CommanderID: c.CommanderID,
+			Discount:    0,
+			BuyCount:    1,
+			ShopOfferID: v.ID,
+		})
+	}
+	return GormDB.Create(&ownedStressShop).Error
+}

@@ -241,6 +241,44 @@ func importShopOffers(region string, tx *gorm.DB) error {
 			ResourceNumber: offer.ResourceNumber,
 			ResourceID:     offer.ResourceID,
 			Type:           offer.Type,
+			Genre:          offer.Genre,
+		}
+		if err := tx.Clauses(clause.OnConflict{UpdateAll: true}).Create(&shopOffer).Error; err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func importMedalShopOffers(region string, tx *gorm.DB) error {
+	decoder, resp, err := getBelfastData(region, "guild_store.json")
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+	decoder.Token() // Consume the start of the array '['
+
+	// Decode each elements
+	for decoder.More() {
+		var offer struct { // decoding to json via a pq.Int64Array is not supported, so we need to decode the effects manually
+			orm.ShopOffer
+			Effects_ []uint32 `json:"effect_args" gorm:"-"`
+		}
+		if err := decoder.Decode(&offer); err != nil {
+			return err
+		}
+		// Manually convert the effects to pq.Int64Array
+		offer.ShopOffer.Effects = make([]int64, len(offer.Effects_))
+		for i, effect := range offer.Effects_ {
+			offer.ShopOffer.Effects[i] = int64(effect)
+		}
+		shopOffer := orm.ShopOffer{
+			ID:             offer.ID,
+			Effects:        offer.Effects,
+			Number:         offer.Number,
+			ResourceNumber: offer.ResourceNumber,
+			ResourceID:     offer.ResourceID,
+			Type:           offer.Type,
 		}
 		if err := tx.Clauses(clause.OnConflict{UpdateAll: true}).Create(&shopOffer).Error; err != nil {
 			return err

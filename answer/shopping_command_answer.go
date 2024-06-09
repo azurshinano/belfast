@@ -50,6 +50,14 @@ func ShoppingCommandAnswer(buffer *[]byte, client *connection.Client) (int, int,
 	response.DropList = make([]*protobuf.DROPINFO, len(shopOffer.Effects))
 
 	switch shopOffer.Type {
+	case 0: // bought virtual items?
+		for i, resourceId := range shopOffer.Effects {
+			response.DropList[i] = &protobuf.DROPINFO{
+				Type:   proto.Uint32(shopOffer.Type),
+				Id:     proto.Uint32(uint32(resourceId)),
+				Number: proto.Uint32(shopOffer.Number * data.GetNumber()),
+			}
+		}
 	case 1: // bought resources
 		for i, resourceId := range shopOffer.Effects {
 			client.Commander.AddResource(uint32(resourceId), shopOffer.Number*data.GetNumber())

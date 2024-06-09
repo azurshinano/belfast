@@ -178,6 +178,10 @@ func init() {
 	packets.RegisterPacketHandler(16001, []packets.PacketHandler{answer.ShoppingCommandAnswer})
 	packets.RegisterPacketHandler(11501, []packets.PacketHandler{answer.ChargeCommandAnswer})
 	packets.RegisterPacketHandler(22101, []packets.PacketHandler{answer.ShopStreetAnswer})
+	packets.RegisterPacketHandler(18100, []packets.PacketHandler{answer.MilitaryShopAnswer})
+	packets.RegisterPacketHandler(60033, []packets.PacketHandler{answer.GuildShopAnswer})
+	packets.RegisterPacketHandler(16106, []packets.PacketHandler{answer.MedalShopAnswer})
+	packets.RegisterPacketHandler(26150, []packets.PacketHandler{answer.MiniGameShopAnswer})
 
 	// Retire
 	packets.RegisterPacketHandler(12004, []packets.PacketHandler{answer.RetireShip})
@@ -253,6 +257,11 @@ func init() {
 
 	// track
 	packets.RegisterPacketHandler(10993, []packets.PacketHandler{func(b *[]byte, c *connection.Client) (int, int, error) {
+		return 0, 0, nil
+	}})
+
+	// track
+	packets.RegisterPacketHandler(11029, []packets.PacketHandler{func(b *[]byte, c *connection.Client) (int, int, error) {
 		return 0, 0, nil
 	}})
 }
