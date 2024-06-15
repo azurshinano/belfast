@@ -9,6 +9,7 @@ import (
 
 	"github.com/ggmolly/belfast/logger"
 	"github.com/ggmolly/belfast/orm"
+	"github.com/ggmolly/belfast/protobuf"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -21,6 +22,7 @@ type Client struct {
 	Port        int
 	State       int
 	PacketIndex int
+	Hash        uint32
 	Connection  *net.Conn
 	Commander   *orm.Commander
 	Buffer      bytes.Buffer
@@ -107,6 +109,14 @@ func (client *Client) Kill() {
 	if err := syscall.Close(client.FD); err != nil {
 		logger.LogEvent("Client", "Kill()", fmt.Sprintf("%s:%d -> %v", client.IP, client.Port, err), logger.LOG_LEVEL_ERROR)
 	}
+}
+
+// Sends SC_10999 (disconnected from server) message to the Client, reasons are defined in consts/disconnect_reasons.go
+func (client *Client) Disconnect(reason uint8) error {
+	_, _, err := SendProtoMessage(10999, client, &protobuf.SC_10999{
+		Reason: proto.Uint32(uint32(reason)),
+	})
+	return err
 }
 
 // Sends the content of the buffer to the client via TCP
