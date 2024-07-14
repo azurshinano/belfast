@@ -13,7 +13,7 @@ import (
 )
 
 type Commander struct {
-	CommanderID   uint32    `gorm:"primary_key"`
+	CommanderID   uint32    `gorm:"primary_key;not_null;uniqueIndex;auto_increment"`
 	AccountID     uint32    `gorm:"not_null"`
 	Level         int       `gorm:"default:1;not_null"`
 	Exp           int       `gorm:"default:0;not_null"`

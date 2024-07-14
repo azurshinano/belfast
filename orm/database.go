@@ -69,7 +69,7 @@ func InitDatabase() bool {
 		&DebugName{},
 		&Debug{},
 		// Commander related stuff
-		&YostarusMap{},
+		&GatewayUser{},
 		&OwnedShip{},
 		&OwnedSkin{},
 		&Punishment{},
@@ -83,10 +83,12 @@ func InitDatabase() bool {
 	if err != nil {
 		panic("failed to migrate database " + err.Error())
 	}
-	if os.Getenv("MODE") == "test" {
-		logger.LogEvent("ORM", "Init", "Skipping database seeding in test mode", logger.LOG_LEVEL_INFO)
-		return true
-	}
+	/*
+		if os.Getenv("MODE") == "test" {
+			logger.LogEvent("ORM", "Init", "Skipping database seeding in test mode", logger.LOG_LEVEL_INFO)
+			return true
+		}
+	*/
 	// Pre-populate debug names table, user will be able to rename them later
 	var count int64
 	GormDB.Model(&DebugName{}).Count(&count)
@@ -150,7 +152,7 @@ func InitDatabase() bool {
 		tx.Save(&Server{
 			ID:      1,
 			Name:    "Belfast",
-			IP:      "localhost",
+			IP:      "192.168.5.1",
 			Port:    80,
 			StateID: proto.Uint32(1),
 		})

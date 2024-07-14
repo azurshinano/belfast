@@ -20,7 +20,7 @@ func Forge_SC10019(buffer *[]byte, client *connection.Client) (int, int, error) 
 		logger.LogEvent("Server", "SC_10019", fmt.Sprintf("failed to fetch servers: %s", err.Error()), logger.LOG_LEVEL_ERROR)
 		return 0, 10019, err
 	}
-	Servers = make([]*protobuf.SERVERINFO, len(belfastServers))
+	Servers := make([]*protobuf.SERVERINFO, len(belfastServers))
 	for i, server := range belfastServers {
 		Servers[i] = &protobuf.SERVERINFO{
 			Ids:   []uint32{server.ID},

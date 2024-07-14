@@ -13,6 +13,7 @@ func UNK_12101(buffer *[]byte, client *connection.Client) (int, int, error) {
 	response.GroupList = append(response.GroupList, &protobuf.GROUPINFO{
 		Id:       proto.Uint32(1),
 		ShipList: []uint32{307081, 405051, 901111, 605021, 805011, 603021},
+		Name:     proto.String("test"),
 	})
 	return client.SendMessage(12101, &response)
 }
