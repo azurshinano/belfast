@@ -1,0 +1,99 @@
+syntax = "proto2";
+package azurlane.data_type_pb;
+option go_package = "github/flyqie/blhx_server/pkg/model/blhx_game_proto/data_type_pb";
+
+message shipinfo {
+  required uint32 id = 1;
+  required uint32 template_id = 2;
+  required uint32 level = 3;
+  required uint32 exp = 4;
+  required uint32 weapon_index_1 = 5;
+  required uint32 weapon_index_2 = 6;
+  required uint32 weapon_index_3 = 7;
+  repeated weaponlvinfo weapon_lv_list = 8;
+  required uint32 equip_id_1 = 9;
+  required uint32 equip_id_2 = 10;
+  required uint32 energy = 11;
+  required shipstate state = 12;
+  required uint32 is_locked = 13;
+  repeated navalacademy_attr attr = 14;
+  repeated transforminfo transform_list = 15;
+  repeated shipskill skill_id_list = 16;
+  required uint32 intimacy = 17;
+  required uint32 strength_level = 18;
+  repeated strength_info strength_list = 19;
+  required private_skill_info private_skill = 20;
+  required uint32 create_time = 21;
+}
+
+message shipstate {
+  required uint32 state = 1;
+  optional uint32 state_info_1 = 2;
+  optional uint32 state_info_2 = 3;
+  optional uint32 state_info_3 = 4;
+  optional uint32 state_info_4 = 5;
+}
+
+message transforminfo {
+  required uint32 id = 1;
+  required uint32 level = 2;
+  required uint32 exp = 3;
+}
+
+message shipskill {
+  required uint32 skill_id = 1;
+  required uint32 skill_lv = 2;
+}
+
+message weaponlvinfo {
+  required uint32 pos = 1;
+  required uint32 index = 2;
+  required uint32 lv = 3;
+}
+
+message strength_info {
+  required uint32 id = 1;
+  required uint32 exp = 2;
+}
+
+message private_skill_info {
+  required uint32 lv = 1;
+  required uint32 exp = 2;
+}
+
+message groupinfo {
+  required uint32 id = 1;
+  required string name = 2;
+  repeated uint32 vanguard_list = 3;
+  repeated uint32 main_list = 4;
+}
+
+message navalacademy_room {
+  required uint32 id = 1;
+  repeated navalacademy_student student_list = 3;
+}
+
+message navalacademy_student {
+  required uint32 id = 1;
+  repeated navalacademy_attr attr_list = 2;
+  required uint32 time = 3;
+}
+
+message navalacademy_attr {
+  required uint32 attr = 1;
+  required uint32 num = 2;
+}
+
+message shoppingstreet {
+  required uint32 lv = 1;
+  required uint32 next_flash_time = 2;
+  required uint32 lv_up_time = 3;
+  repeated streetgoods goods_list = 4;
+  required uint32 flash_count = 5;
+}
+
+message streetgoods {
+  required uint32 goods_id = 1;
+  required uint32 discount = 2;
+  required uint32 buy_count = 3;
+}

@@ -1,0 +1,46 @@
+syntax = "proto2";
+package azurlane.p14_pb;
+option go_package = "github/flyqie/blhx_server/pkg/model/blhx_game_proto/p14_pb";
+
+message sc_14001 {
+  repeated equipinfo equip_list = 1;
+}
+
+message cs_14002 {
+  required uint32 ship_id = 1;
+  required uint32 pos = 2;
+}
+
+message sc_14003 {
+  required uint32 result = 1;
+}
+
+message cs_14004 {
+  required uint32 equip_id = 1;
+}
+
+message sc_14005 {
+  required uint32 result = 1;
+}
+
+message cs_14006 {
+  required uint32 id = 1;
+  required uint32 num = 2;
+}
+
+message sc_14007 {
+  required uint32 result = 1;
+}
+
+message cs_14008 {
+  repeated equipinfo equip_list = 1;
+}
+
+message sc_14009 {
+  required uint32 result = 1;
+}
+
+message equipinfo {
+  required uint32 id = 1;
+  required uint32 count = 2;
+}

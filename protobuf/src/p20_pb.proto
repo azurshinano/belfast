@@ -1,0 +1,61 @@
+syntax = "proto2";
+package azurlane.p20_pb;
+option go_package = "github/flyqie/blhx_server/pkg/model/blhx_game_proto/p20_pb";
+
+message sc_20001 {
+  repeated task_info info = 1;
+}
+
+message task_info {
+  required uint32 id = 1;
+  required uint32 progress = 2;
+  required uint32 accept_time = 3;
+  required uint32 submit_time = 4;
+}
+
+message sc_20002 {
+  repeated task_progress info = 1;
+}
+
+message task_progress {
+  required uint32 id = 1;
+  required uint32 progress = 2;
+}
+
+message sc_20003 {
+  repeated task_add info = 1;
+}
+
+message sc_20004 {
+  repeated uint32 id_list = 1;
+}
+
+message cs_20005 {
+  required uint32 id = 1;
+}
+
+message sc_20006 {
+  required uint32 result = 1;
+  repeated dropinfo award_list = 2;
+}
+
+message cs_20007 {
+  required uint32 id = 1;
+}
+
+message sc_20008 {
+  required uint32 result = 1;
+  optional task_add task = 2;
+}
+
+message task_add {
+  required uint32 id = 1;
+  required uint32 progress = 2;
+  required uint32 accept_time = 3;
+}
+
+message dropinfo {
+  required uint32 type = 1;
+  required uint32 id = 2;
+  required uint32 number = 3;
+}

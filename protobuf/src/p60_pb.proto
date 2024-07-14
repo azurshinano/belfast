@@ -1,0 +1,206 @@
+syntax = "proto2";
+package azurlane.p60_pb;
+option go_package = "github/flyqie/blhx_server/pkg/model/blhx_game_proto/p60_pb";
+
+message sc_60000 {
+  required guild_info guild = 1;
+}
+
+message cs_60001 {
+  required uint32 faction = 1;
+  required uint32 policy = 2;
+  required string name = 3;
+  required string manifesto = 4;
+}
+
+message sc_60002 {
+  required uint32 result = 1;
+  required uint32 id = 2;
+}
+
+message cs_60003 {
+  required uint32 id = 1;
+}
+
+message sc_60004 {
+  repeated msg_info request_list = 2;
+}
+
+message cs_60005 {
+  required uint32 id = 1;
+  required string content = 2;
+}
+
+message sc_60006 {
+  required uint32 result = 1;
+}
+
+message cs_60007 {
+  required string chat = 1;
+}
+
+message sc_60008 {
+  required player_info player = 1;
+  required string content = 2;
+}
+
+message sc_60009 {
+  required uint32 count = 1;
+}
+
+message cs_60010 {
+  required uint32 id = 1;
+}
+
+message sc_60011 {
+  required uint32 result = 1;
+}
+
+message cs_60012 {
+  required uint32 player_id = 1;
+  required uint32 duty_id = 2;
+}
+
+message sc_60013 {
+  required uint32 result = 1;
+}
+
+message cs_60014 {
+  required uint32 player_id = 1;
+}
+
+message sc_60015 {
+  required uint32 result = 1;
+}
+
+message cs_60016 {
+  required uint32 player_id = 1;
+}
+
+message sc_60017 {
+  required uint32 result = 1;
+}
+
+message cs_60018 {
+  required uint32 id = 1;
+}
+
+message sc_60019 {
+  required uint32 result = 1;
+}
+
+message cs_60020 {
+  required uint32 player_id = 1;
+}
+
+message sc_60021 {
+  required uint32 result = 1;
+}
+
+message cs_60022 {
+  required uint32 player_id = 1;
+}
+
+message sc_60023 {
+  required uint32 result = 1;
+}
+
+message cs_60024 {
+  required uint32 type = 1;
+}
+
+message sc_60025 {
+  repeated guild_simple_info guild_list = 1;
+}
+
+message cs_60026 {
+  required uint32 type = 1;
+  optional uint32 int = 2;
+  optional string str = 3;
+}
+
+message sc_60027 {
+  required uint32 result = 1;
+}
+
+message cs_60028 {
+  required uint32 type = 1;
+  required string keyword = 2;
+}
+
+message sc_60029 {
+  required uint32 result = 1;
+  optional guild_simple_info guild = 2;
+}
+
+message sc_60030 {
+  required guild_base_info guild = 1;
+}
+
+message sc_60031 {
+  repeated member_info member_list = 1;
+  repeated log_info log_list = 2;
+}
+
+message sc_60032 {
+  required uint32 lv = 1;
+  required uint32 exp = 2;
+}
+
+message msg_info {
+  required uint32 timestamp = 1;
+  required player_info player = 2;
+  required string content = 3;
+}
+
+message player_info {
+  required uint32 id = 1;
+  required string name = 2;
+  required uint32 icon = 3;
+  required uint32 lv = 4;
+}
+
+message guild_simple_info {
+  required guild_base_info base = 1;
+  required player_info leader = 2;
+}
+
+message guild_info {
+  required guild_base_info base = 1;
+  repeated member_info member = 2;
+  repeated log_info log = 3;
+}
+
+message guild_base_info {
+  required uint32 id = 1;
+  required uint32 policy = 2;
+  required uint32 faction = 3;
+  required string name = 4;
+  required uint32 level = 5;
+  required string announce = 6;
+  required string manifesto = 7;
+  required uint32 exp = 8;
+  required uint32 member_count = 9;
+  required uint32 change_faction_cd = 10;
+  required uint32 kick_leader_cd = 11;
+}
+
+message member_info {
+  required uint32 liveness = 1;
+  required uint32 duty = 2;
+  required uint32 id = 3;
+  required string name = 4;
+  required uint32 icon = 5;
+  required uint32 lv = 6;
+  required string adv = 7;
+  required uint32 online = 8;
+  required uint32 pre_online_time = 9;
+}
+
+message log_info {
+  required uint32 cmd = 1;
+  required uint32 time = 2;
+  required uint32 user_id = 3;
+  required string name = 4;
+  optional uint32 arg1 = 5;
+}

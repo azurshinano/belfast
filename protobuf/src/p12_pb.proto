@@ -1,0 +1,221 @@
+syntax = "proto2";
+package azurlane.p12_pb;
+option go_package = "github/flyqie/blhx_server/pkg/model/blhx_game_proto/p12_pb";
+
+message sc_12001 {
+  repeated shipinfo shiplist = 1;
+  required uint32 energy_auto_increase_time = 2;
+}
+
+message cs_12002 {
+  required uint32 id = 1;
+  required uint32 pos = 2;
+}
+
+message sc_12003 {
+  required uint32 result = 1;
+  optional buildinfo build_info = 2;
+}
+
+message cs_12004 {
+  repeated uint32 ship_id_list = 1;
+}
+
+message sc_12005 {
+  required uint32 result = 1;
+  repeated uint32 ship_id_list = 2;
+}
+
+message cs_12006 {
+  required uint32 ship_id = 1;
+  required uint32 equip_id = 2;
+  required uint32 pos = 3;
+}
+
+message sc_12007 {
+  required uint32 result = 1;
+}
+
+message cs_12008 {
+  required uint32 type = 1;
+  required uint32 pos = 2;
+}
+
+message sc_12009 {
+  required uint32 result = 1;
+}
+
+message sc_12010 {
+  repeated shipinfo ship_list = 1;
+}
+
+message cs_12011 {
+  required uint32 ship_id = 1;
+  repeated uint32 material_id_list = 2;
+  repeated uint32 transform_id_list = 3;
+}
+
+message sc_12012 {
+  required uint32 result = 1;
+}
+
+message cs_12017 {
+  required uint32 ship_id = 1;
+  repeated uint32 material_id_list = 2;
+}
+
+message sc_12018 {
+  required uint32 result = 1;
+}
+
+message sc_12019 {
+  required uint32 intimacy = 1;
+}
+
+message cs_12020 {
+  required uint32 ship_id = 1;
+}
+
+message sc_12021 {
+  required uint32 result = 1;
+}
+
+message cs_12022 {
+  repeated uint32 ship_id_list = 1;
+  required uint32 is_locked = 2;
+}
+
+message sc_12023 {
+  required uint32 result = 1;
+}
+
+message sc_12024 {
+  required uint32 worklist_count = 1;
+  repeated buildinfo worklist_list = 2;
+  required uint32 draw_count_1 = 3;
+  required uint32 draw_count_10 = 4;
+}
+
+message cs_12025 {
+  required uint32 type = 1;
+  required uint32 pos = 2;
+}
+
+message sc_12026 {
+  required uint32 result = 1;
+  optional shipinfo ship = 2;
+}
+
+message cs_12027 {
+  required uint32 ship_id = 1;
+  repeated uint32 material_id_list = 2;
+}
+
+message sc_12028 {
+  required uint32 result = 1;
+}
+
+message cs_12029 {
+  required uint32 id = 1;
+  required uint32 num = 2;
+}
+
+message sc_12030 {
+  required uint32 result = 1;
+  repeated shipinfo ship_list = 2;
+}
+
+message buildinfo {
+  required uint32 time = 1;
+  required uint32 finish_time = 2;
+  required uint32 build_id = 3;
+}
+
+message shipinfo {
+  required uint32 id = 1;
+  required uint32 template_id = 2;
+  required uint32 level = 3;
+  required uint32 exp = 4;
+  repeated uint32 equip_id_list = 5;
+  required uint32 energy = 6;
+  required shipstate state = 7;
+  required uint32 is_locked = 8;
+  repeated navalacademy_attr attr = 9;
+  repeated shipskill skill_id_list = 10;
+  required uint32 intimacy = 11;
+  required uint32 strength_level = 12;
+  repeated strength_info strength_list = 13;
+  required uint32 create_time = 14;
+  required uint32 skin_id = 15;
+}
+
+message shipstate {
+  required uint32 state = 1;
+  optional uint32 state_info_1 = 2;
+  optional uint32 state_info_2 = 3;
+  optional uint32 state_info_3 = 4;
+  optional uint32 state_info_4 = 5;
+}
+
+message shipskill {
+  required uint32 skill_id = 1;
+  required uint32 skill_lv = 2;
+  required uint32 skill_exp = 3;
+}
+
+message strength_info {
+  required uint32 id = 1;
+  required uint32 exp = 2;
+}
+
+message sc_12101 {
+  repeated groupinfo group_list = 1;
+}
+
+message cs_12102 {
+  required uint32 id = 1;
+  repeated uint32 vanguard_list = 2;
+  repeated uint32 main_list = 3;
+}
+
+message sc_12103 {
+  required uint32 result = 1;
+}
+
+message cs_12104 {
+  required uint32 id = 1;
+  required string name = 2;
+}
+
+message sc_12105 {
+  required uint32 result = 1;
+}
+
+message sc_12106 {
+  required groupinfo group = 1;
+}
+
+message groupinfo {
+  required uint32 id = 1;
+  required string name = 2;
+  repeated uint32 vanguard_list = 3;
+  repeated uint32 main_list = 4;
+}
+
+message navalacademy_attr {
+  required uint32 attr = 1;
+  required uint32 num = 2;
+}
+
+message sc_12201 {
+  repeated uint32 skins = 1;
+}
+
+message cs_12202 {
+  required uint32 ship_id = 1;
+  required uint32 skin_id = 2;
+}
+
+message sc_12203 {
+  required uint32 result = 1;
+}

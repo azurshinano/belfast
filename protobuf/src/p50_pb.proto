@@ -1,0 +1,182 @@
+syntax = "proto2";
+package azurlane.p50_pb;
+option go_package = "github/flyqie/blhx_server/pkg/model/blhx_game_proto/p50_pb";
+
+message sc_50000 {
+  repeated friend_info friend_list = 1;
+  repeated msg_info request_list = 2;
+}
+
+message cs_50001 {
+  required uint32 type = 1;
+  required string keyword = 2;
+}
+
+message sc_50002 {
+  required uint32 result = 1;
+  optional detail_info player = 2;
+}
+
+message cs_50003 {
+  required uint32 id = 1;
+  required string content = 2;
+}
+
+message sc_50004 {
+  required uint32 result = 1;
+}
+
+message sc_50005 {
+  required msg_info msg = 1;
+}
+
+message cs_50006 {
+  required uint32 id = 1;
+}
+
+message sc_50007 {
+  required uint32 result = 1;
+}
+
+message sc_50008 {
+  required friend_info player = 1;
+}
+
+message cs_50009 {
+  required uint32 id = 1;
+}
+
+message sc_50010 {
+  required uint32 result = 1;
+}
+
+message cs_50011 {
+  required uint32 id = 1;
+}
+
+message sc_50012 {
+  required uint32 result = 1;
+}
+
+message sc_50013 {
+  required uint32 id = 1;
+}
+
+message cs_50014 {
+  required uint32 type = 1;
+}
+
+message sc_50015 {
+  repeated player_info player_list = 1;
+}
+
+message cs_50016 {
+  required uint32 type = 1;
+}
+
+message sc_50017 {
+  repeated player_info black_list = 3;
+}
+
+message sc_50101 {
+  required player_info player = 1;
+  required uint32 type = 2;
+  required string content = 3;
+}
+
+message cs_50102 {
+  required uint32 type = 1;
+  required string content = 2;
+}
+
+message sc_50103 {
+  required uint32 ad_id = 1;
+  repeated ad_arg arg_list = 2;
+}
+
+message sc_50104 {
+  required msg_info msg = 1;
+}
+
+message cs_50105 {
+  required uint32 id = 1;
+  required string content = 2;
+}
+
+message sc_50106 {
+  required uint32 result = 1;
+}
+
+message cs_50107 {
+  required uint32 id = 1;
+}
+
+message sc_50108 {
+  required uint32 result = 1;
+}
+
+message cs_50109 {
+  required uint32 id = 1;
+}
+
+message sc_50110 {
+  required uint32 result = 1;
+}
+
+message cs_50111 {
+  required uint32 id = 1;
+  required string info = 2;
+  required string content = 3;
+}
+
+message sc_50112 {
+  required uint32 result = 1;
+}
+
+message msg_info {
+  required uint32 timestamp = 1;
+  required player_info player = 2;
+  required string content = 3;
+}
+
+message detail_info {
+  required uint32 id = 1;
+  required string name = 2;
+  required uint32 icon = 3;
+  required uint32 title = 4;
+  required uint32 lv = 5;
+  required uint32 ship_count = 6;
+  required uint32 collection_count = 7;
+  required uint32 pvp_attack_count = 8;
+  required uint32 pvp_win_count = 9;
+  required uint32 collect_attack_count = 10;
+  required uint32 attack_count = 11;
+  required uint32 win_count = 12;
+  required string adv = 13;
+  required uint32 online = 14;
+  required uint32 pre_online_time = 15;
+  required uint32 score = 16;
+}
+
+message friend_info {
+  required uint32 id = 1;
+  required string name = 2;
+  required uint32 icon = 3;
+  required uint32 lv = 4;
+  required string adv = 5;
+  required uint32 online = 6;
+  required uint32 pre_online_time = 7;
+}
+
+message player_info {
+  required uint32 id = 1;
+  required string name = 2;
+  required uint32 icon = 3;
+  required uint32 lv = 4;
+}
+
+message ad_arg {
+  required uint32 type = 1;
+  optional string string = 2;
+  optional uint32 int = 3;
+}

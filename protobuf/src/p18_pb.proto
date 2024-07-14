@@ -1,0 +1,169 @@
+syntax = "proto2";
+package azurlane.p18_pb;
+option go_package = "github/flyqie/blhx_server/pkg/model/blhx_game_proto/p18_pb";
+
+message cs_18001 {
+  required uint32 type = 1;
+}
+
+message sc_18002 {
+  required uint32 score = 1;
+  required uint32 rank = 2;
+  required uint32 fight_count = 3;
+  required uint32 fight_count_reset_time = 4;
+  required uint32 flash_target_count = 5;
+  repeated uint32 vanguard_ship_id_list = 6;
+  repeated uint32 main_ship_id_list = 7;
+  repeated targetinfo target_list = 8;
+}
+
+message cs_18003 {
+  required uint32 type = 1;
+}
+
+message sc_18004 {
+  required uint32 result = 1;
+  repeated targetinfo target_list = 2;
+}
+
+message sc_18005 {
+  required uint32 score = 1;
+  required uint32 rank = 2;
+  repeated targetinfo target_list = 3;
+}
+
+message cs_18006 {
+  required uint32 type = 1;
+}
+
+message sc_18007 {
+  repeated arenarank arena_rank_lsit = 1;
+}
+
+message cs_18008 {
+  repeated uint32 vanguard_ship_id_list = 1;
+  repeated uint32 main_ship_id_list = 2;
+}
+
+message sc_18009 {
+  required uint32 result = 1;
+}
+
+message cs_18100 {
+  required uint32 type = 1;
+}
+
+message sc_18101 {
+  required uint32 flash_count = 1;
+  repeated arenashop arena_shop_list = 2;
+}
+
+message cs_18102 {
+  required uint32 type = 1;
+}
+
+message sc_18103 {
+  required uint32 result = 1;
+  repeated arenashop arena_shop_list = 2;
+}
+
+message cs_18104 {
+  required uint32 id = 1;
+}
+
+message sc_18105 {
+  required targetinfo info = 1;
+}
+
+message cs_18201 {
+  required uint32 page = 1;
+  required uint32 type = 2;
+}
+
+message sc_18202 {
+  repeated rank_info list = 1;
+}
+
+message cs_18203 {
+  required uint32 type = 1;
+}
+
+message sc_18204 {
+  required uint32 point = 1;
+  required uint32 rank = 2;
+}
+
+message targetinfo {
+  required uint32 id = 1;
+  required uint32 level = 2;
+  required uint32 icon = 3;
+  required string name = 4;
+  required uint32 score = 5;
+  required uint32 rank = 6;
+  repeated shipinfo vanguard_ship_list = 7;
+  repeated shipinfo main_ship_list = 8;
+}
+
+message arenarank {
+  required uint32 id = 1;
+  required uint32 level = 2;
+  required uint32 icon = 3;
+  required string name = 4;
+  required uint32 score = 5;
+}
+
+message arenashop {
+  required uint32 shop_id = 1;
+  required uint32 count = 2;
+}
+
+message shipinfo {
+  required uint32 id = 1;
+  required uint32 template_id = 2;
+  required uint32 level = 3;
+  required uint32 exp = 4;
+  repeated uint32 equip_id_list = 5;
+  required uint32 energy = 6;
+  required shipstate state = 7;
+  required uint32 is_locked = 8;
+  repeated navalacademy_attr attr = 9;
+  repeated shipskill skill_id_list = 10;
+  required uint32 intimacy = 11;
+  required uint32 strength_level = 12;
+  repeated strength_info strength_list = 13;
+  required uint32 create_time = 14;
+  required uint32 skin_id = 15;
+}
+
+message shipstate {
+  required uint32 state = 1;
+  optional uint32 state_info_1 = 2;
+  optional uint32 state_info_2 = 3;
+  optional uint32 state_info_3 = 4;
+  optional uint32 state_info_4 = 5;
+}
+
+message shipskill {
+  required uint32 skill_id = 1;
+  required uint32 skill_lv = 2;
+  required uint32 skill_exp = 3;
+}
+
+message strength_info {
+  required uint32 id = 1;
+  required uint32 exp = 2;
+}
+
+message navalacademy_attr {
+  required uint32 attr = 1;
+  required uint32 num = 2;
+}
+
+message rank_info {
+  required uint32 user_id = 1;
+  required uint32 point = 2;
+  required string name = 3;
+  required uint32 lv = 4;
+  required uint32 icon = 5;
+  required uint32 arena_rank = 6;
+}

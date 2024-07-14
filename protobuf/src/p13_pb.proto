@@ -1,0 +1,154 @@
+syntax = "proto2";
+package azurlane.p13_pb;
+option go_package = "github/flyqie/blhx_server/pkg/model/blhx_game_proto/p13_pb";
+
+message sc_13001 {
+  repeated chapterinfo chapter_list = 1;
+  optional currentchapterinfo current_chapter = 2;
+  required uint32 daily_repair_count = 3;
+}
+
+message sc_13002 {
+  required uint32 flash_count = 1;
+  repeated collectioninfo collection_list = 2;
+  required uint32 max_team = 3;
+}
+
+message cs_13003 {
+  required uint32 id = 1;
+  repeated uint32 ship_id_list = 2;
+}
+
+message sc_13004 {
+  required uint32 result = 1;
+}
+
+message cs_13005 {
+  required uint32 id = 1;
+}
+
+message sc_13006 {
+  required uint32 result = 1;
+  required uint32 exp = 2;
+  repeated iteminfo drop_list = 3;
+  repeated collectioninfo new_collection = 4;
+  required uint32 is_cri = 5;
+}
+
+message cs_13007 {
+  required uint32 id = 1;
+}
+
+message sc_13008 {
+  required uint32 result = 1;
+}
+
+message sc_13011 {
+  required collectioninfo collection = 1;
+}
+
+message collectioninfo {
+  required uint32 id = 1;
+  required uint32 finish_time = 2;
+  required uint32 over_time = 3;
+  repeated uint32 ship_id_list = 4;
+}
+
+message iteminfo {
+  required uint32 type = 1;
+  required uint32 id = 2;
+  required uint32 num = 3;
+}
+
+message cs_13101 {
+  required uint32 id = 1;
+  repeated uint32 group_id_list = 2;
+}
+
+message sc_13102 {
+  required uint32 result = 1;
+  optional currentchapterinfo current_chapter = 2;
+}
+
+message cs_13103 {
+  required uint32 act = 1;
+  required uint32 group_id = 2;
+  optional uint32 act_arg_1 = 3;
+  optional uint32 act_arg_2 = 4;
+}
+
+message sc_13104 {
+  required uint32 result = 1;
+  repeated chaptercellpos move_path = 2;
+  repeated dropinfo drop_list = 3;
+  repeated chaptercellinfo map_update = 4;
+  repeated shipinchapter ship_update = 5;
+}
+
+message sc_13105 {
+  repeated chaptercellinfo map_update = 1;
+}
+
+message chapterinfo {
+  required uint32 id = 1;
+  required uint32 progress = 2;
+  required uint32 kill_boss_count = 3;
+  required uint32 kill_enemy_count = 4;
+  required uint32 take_box_count = 5;
+  repeated uint32 drop_ship_id = 6;
+}
+
+message currentchapterinfo {
+  required uint32 id = 1;
+  required uint32 time = 2;
+  repeated chaptercellinfo cell_list = 3;
+  repeated groupinchapter group_list = 4;
+}
+
+message chaptercellinfo {
+  required chaptercellpos pos = 1;
+  required uint32 item_type = 2;
+  optional uint32 item_id = 3;
+  optional uint32 item_flag = 4;
+}
+
+message chaptercellpos {
+  required uint32 row = 1;
+  required uint32 column = 2;
+}
+
+message dropinfo {
+  required uint32 type = 1;
+  required uint32 id = 2;
+  required uint32 number = 3;
+}
+
+message groupinchapter {
+  required uint32 id = 1;
+  repeated shipinchapter ship_list = 2;
+  required chaptercellpos pos = 3;
+  required uint32 step_count = 4;
+  repeated strategyinfo strategy_list = 5;
+  repeated strategyinfo strategy_use_list = 6;
+  required uint32 strategy_id = 7;
+  required uint32 bullet = 8;
+}
+
+message shipinchapter {
+  required uint32 id = 1;
+  required uint32 hp_rant = 2;
+}
+
+message strategyinfo {
+  required uint32 id = 1;
+  required uint32 count = 3;
+}
+
+message sc_13201 {
+  repeated expedition_daily_count count_list = 1;
+}
+
+message expedition_daily_count {
+  required uint32 id = 1;
+  required uint32 count = 2;
+}

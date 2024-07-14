@@ -1,0 +1,162 @@
+syntax = "proto2";
+package azurlane.p19_pb;
+option go_package = "github/flyqie/blhx_server/pkg/model/blhx_game_proto/p19_pb";
+
+message sc_19001 {
+  required uint32 lv = 1;
+  required uint32 food = 2;
+  required uint32 food_max_increase = 3;
+  required uint32 food_max_increase_count = 4;
+  repeated uint32 ship_id_list = 5;
+  repeated uint32 furniture_id_list = 6;
+  required uint32 fix_pos = 7;
+  required uint32 exp_pos = 8;
+  repeated furnitureputinfo furniture_put_list = 9;
+  required uint32 next_timestamp = 10;
+  required uint32 load_exp = 11;
+  required uint32 load_food = 12;
+  required uint32 load_time = 13;
+  required string name = 14;
+}
+
+message cs_19002 {
+  required uint32 ship_id = 1;
+  required uint32 type = 2;
+}
+
+message sc_19003 {
+  required uint32 result = 1;
+}
+
+message cs_19004 {
+  required uint32 ship_id = 1;
+}
+
+message sc_19005 {
+  required uint32 result = 1;
+}
+
+message cs_19006 {
+  repeated uint32 furniture_id = 1;
+}
+
+message sc_19007 {
+  required uint32 result = 1;
+}
+
+message cs_19008 {
+  repeated furnitureputinfo furniture_put_list = 1;
+}
+
+message sc_19009 {
+  required uint32 exp = 1;
+  required uint32 food_consume = 2;
+}
+
+message sc_19010 {
+  repeated pop_info pop_list = 1;
+}
+
+message cs_19011 {
+  required uint32 id = 1;
+}
+
+message sc_19012 {
+  required uint32 result = 1;
+}
+
+message cs_19013 {
+  required uint32 id = 1;
+}
+
+message sc_19014 {
+  required uint32 result = 1;
+}
+
+message cs_19015 {
+  required uint32 is_open = 1;
+}
+
+message cs_19016 {
+  required string name = 1;
+}
+
+message sc_19017 {
+  required uint32 result = 1;
+}
+
+message cs_19018 {
+  required uint32 id = 1;
+}
+
+message sc_19019 {
+  repeated dormtheme theme_list = 1;
+}
+
+message cs_19020 {
+  required uint32 id = 1;
+  required string name = 2;
+  repeated furnitureputinfo furniture_put_list = 3;
+}
+
+message sc_19021 {
+  required uint32 result = 1;
+}
+
+message cs_19022 {
+  required uint32 id = 1;
+}
+
+message sc_19023 {
+  required uint32 result = 1;
+}
+
+message cs_19101 {
+  required uint32 user_id = 1;
+}
+
+message sc_19102 {
+  required uint32 lv = 1;
+  required uint32 food = 2;
+  required uint32 food_max_increase = 3;
+  required uint32 food_max_increase_count = 4;
+  repeated ship_in_drom ship_id_list = 5;
+  repeated uint32 furniture_id_list = 6;
+  required uint32 fix_pos = 7;
+  required uint32 exp_pos = 8;
+  repeated furnitureputinfo furniture_put_list = 9;
+  required string name = 10;
+}
+
+message pop_info {
+  required uint32 id = 1;
+  required uint32 intimacy = 2;
+  required uint32 dorm_icon = 3;
+}
+
+message furnitureputinfo {
+  required uint32 id = 1;
+  required uint32 x = 2;
+  required uint32 y = 3;
+  required uint32 dir = 4;
+  repeated childinfo child = 5;
+  required uint32 parent = 6;
+  required uint32 shipId = 7;
+}
+
+message childinfo {
+  required uint32 id = 1;
+  required uint32 x = 2;
+  required uint32 y = 3;
+}
+
+message ship_in_drom {
+  required uint32 id = 1;
+  required uint32 tid = 2;
+}
+
+message dormtheme {
+  required uint32 id = 1;
+  required string name = 2;
+  repeated furnitureputinfo furniture_put_list = 3;
+}

@@ -1,0 +1,66 @@
+syntax = "proto2";
+package azurlane.p40_pb;
+option go_package = "github/flyqie/blhx_server/pkg/model/blhx_game_proto/p40_pb";
+
+message cs_40001 {
+  required uint32 system = 1;
+  repeated uint32 ship_id_list = 2;
+  required uint32 data = 3;
+}
+
+message sc_40002 {
+  required uint32 result = 1;
+  optional uint32 key = 2;
+  repeated dropperformance drop_performance = 3;
+}
+
+message cs_40003 {
+  required uint32 system = 1;
+  required uint32 data = 2;
+  required uint32 key = 3;
+  optional uint32 score = 4;
+  repeated statisticsinfo statistics = 5;
+  repeated uint32 kill_id_list = 6;
+  required uint32 total_time = 7;
+}
+
+message sc_40004 {
+  required uint32 result = 1;
+  repeated dropinfo drop_info = 2;
+  required uint32 player_exp = 3;
+  repeated ship_exp ship_exp_list = 4;
+}
+
+message cs_40005 {
+  required uint32 system = 1;
+}
+
+message sc_40006 {
+  required uint32 result = 1;
+}
+
+message dropperformance {
+  required uint32 enemy_id = 1;
+  required uint32 resource_num = 2;
+  required uint32 other_num = 3;
+}
+
+message dropinfo {
+  required uint32 type = 1;
+  required uint32 id = 2;
+  required uint32 number = 3;
+}
+
+message statisticsinfo {
+  required uint32 ship_id = 1;
+  required uint32 damage_cause = 2;
+  required uint32 damage_caused = 3;
+  required uint32 hp_rest = 4;
+  required uint32 max_damage_once = 5;
+}
+
+message ship_exp {
+  required uint32 ship_id = 1;
+  required uint32 exp = 2;
+  required uint32 intimacy = 3;
+}

@@ -1,0 +1,62 @@
+syntax = "proto2";
+package azurlane.p30_pb;
+option go_package = "github/flyqie/blhx_server/pkg/model/blhx_game_proto/p30_pb";
+
+message sc_30001 {
+  required uint32 unread_number = 1;
+  required uint32 total_number = 3;
+}
+
+message cs_30002 {
+  required uint32 type = 1;
+  optional uint32 split_id = 2;
+}
+
+message sc_30003 {
+  repeated mail_sigle mail_list = 1;
+}
+
+message cs_30004 {
+  required uint32 id = 1;
+}
+
+message sc_30005 {
+  repeated attachment attachment_list = 1;
+}
+
+message cs_30006 {
+  required uint32 id = 1;
+}
+
+message sc_30007 {
+  repeated uint32 id_list = 1;
+}
+
+message cs_30008 {
+  required uint32 id = 1;
+}
+
+message sc_30009 {
+  required mail_detail detail_info = 1;
+}
+
+message mail_sigle {
+  required uint32 id = 1;
+  required uint32 date = 2;
+  required string title = 3;
+  required uint32 attach_flag = 4;
+  required uint32 read_flag = 5;
+  repeated attachment attachment_list = 6;
+}
+
+message mail_detail {
+  required uint32 id = 1;
+  required string content = 2;
+  repeated attachment attachment_list = 3;
+}
+
+message attachment {
+  required uint32 type = 1;
+  required uint32 id = 2;
+  required uint32 number = 3;
+}

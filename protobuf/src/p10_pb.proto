@@ -1,0 +1,100 @@
+syntax = "proto2";
+package azurlane.p10_pb;
+option go_package = "github/flyqie/blhx_server/pkg/model/blhx_game_proto/p10_pb";
+
+message cs_10001 {
+  required string account = 1;
+  required string password = 2;
+  required string mail_box = 3;
+}
+
+message sc_10002 {
+  required uint32 result = 1;
+}
+
+message cs_10020 {
+  required uint32 login_type = 1;
+  required string arg1 = 2;
+  optional string arg2 = 3;
+  optional string arg3 = 4;
+  optional string arg4 = 5;
+  required string check_key = 6;
+}
+
+message sc_10021 {
+  required uint32 result = 1;
+  repeated serverinfo serverlist = 2;
+  required uint32 account_id = 3;
+  required string server_ticket = 4;
+  repeated noticeinfo notice_list = 5;
+}
+
+message serverinfo {
+  repeated uint32 ids = 1;
+  required string ip = 2;
+  required uint32 port = 3;
+  required uint32 state = 4;
+  required string name = 5;
+}
+
+message noticeinfo {
+  required uint32 id = 1;
+  required string title = 2;
+  required string content = 3;
+}
+
+message cs_10022 {
+  required uint32 account_id = 1;
+  required string server_ticket = 2;
+  required string platform = 3;
+  required uint32 serverid = 4;
+  required string check_key = 5;
+}
+
+message sc_10023 {
+  required uint32 result = 1;
+  required uint32 user_id = 2;
+  required string server_ticket = 3;
+}
+
+message cs_10024 {
+  required string nick_name = 1;
+  required uint32 ship_id = 2;
+}
+
+message sc_10025 {
+  required uint32 result = 1;
+  required uint32 user_id = 2;
+}
+
+message cs_10100 {
+  required uint32 need_request = 1;
+}
+
+message sc_10101 {
+  required uint32 state = 1;
+}
+
+message cs_10996 {
+  required uint32 state = 1;
+  required string platform = 2;
+}
+
+message sc_10997 {
+  required uint32 version1 = 1;
+  required uint32 version2 = 2;
+  required uint32 version3 = 3;
+  required uint32 version4 = 4;
+  required string gateway_ip = 5;
+  required uint32 gateway_port = 6;
+  required string url = 7;
+}
+
+message sc_10998 {
+  required uint32 cmd = 1;
+  required uint32 result = 2;
+}
+
+message sc_10999 {
+  required uint32 reason = 1;
+}

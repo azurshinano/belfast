@@ -1,0 +1,108 @@
+syntax = "proto2";
+package azurlane.p22_pb;
+option go_package = "github/flyqie/blhx_server/pkg/model/blhx_game_proto/p22_pb";
+
+message sc_22001 {
+  repeated navalacademy_room room_list = 1;
+  required uint32 oil_well_level = 2;
+  required uint32 oil_well_lv_up_time = 3;
+  required uint32 gold_well_level = 4;
+  required uint32 gold_well_lv_up_time = 5;
+  repeated skill_class skill_class_list = 6;
+}
+
+message cs_22002 {
+  required uint32 room_id = 1;
+  repeated uint32 ship_id_list = 2;
+}
+
+message sc_22003 {
+  required uint32 result = 1;
+  optional navalacademy_room room = 2;
+}
+
+message cs_22004 {
+  required uint32 room_id = 1;
+  required uint32 ship_id = 2;
+}
+
+message sc_22005 {
+  required uint32 result = 1;
+}
+
+message cs_22006 {
+  required uint32 room_id = 1;
+  required uint32 ship_id = 2;
+}
+
+message sc_22007 {
+  required uint32 result = 1;
+}
+
+message cs_22101 {
+  required uint32 type = 1;
+}
+
+message sc_22102 {
+  required shoppingstreet street = 1;
+}
+
+message cs_22201 {
+  required uint32 room_id = 1;
+  required uint32 ship_id = 2;
+  required uint32 skill_pos = 3;
+  required uint32 item_id = 4;
+}
+
+message sc_22202 {
+  required uint32 result = 1;
+  optional skill_class class_info = 2;
+}
+
+message cs_22203 {
+  required uint32 room_id = 1;
+}
+
+message sc_22204 {
+  required uint32 result = 1;
+  optional uint32 exp = 2;
+}
+
+message navalacademy_room {
+  required uint32 id = 1;
+  repeated navalacademy_student student_list = 3;
+}
+
+message navalacademy_student {
+  required uint32 id = 1;
+  repeated navalacademy_attr attr_list = 2;
+  required uint32 time = 3;
+}
+
+message navalacademy_attr {
+  required uint32 attr = 1;
+  required uint32 num = 2;
+}
+
+message shoppingstreet {
+  required uint32 lv = 1;
+  required uint32 next_flash_time = 2;
+  required uint32 lv_up_time = 3;
+  repeated streetgoods goods_list = 4;
+  required uint32 flash_count = 5;
+}
+
+message streetgoods {
+  required uint32 goods_id = 1;
+  required uint32 discount = 2;
+  required uint32 buy_count = 3;
+}
+
+message skill_class {
+  required uint32 room_id = 1;
+  required uint32 ship_id = 2;
+  required uint32 start_time = 3;
+  required uint32 finish_time = 4;
+  required uint32 skill_pos = 5;
+  required uint32 exp = 6;
+}

@@ -1,0 +1,90 @@
+syntax = "proto2";
+package azurlane.p16_pb;
+option go_package = "github/flyqie/blhx_server/pkg/model/blhx_game_proto/p16_pb";
+
+message cs_16001 {
+  required uint32 id = 1;
+  required uint32 number = 2;
+}
+
+message sc_16002 {
+  required uint32 result = 1;
+}
+
+message cs_16100 {
+  required uint32 time = 1;
+}
+
+message sc_16101 {
+  repeated uint32 ship_id_list = 1;
+  repeated uint32 fetched_index_list = 2;
+  required uint32 flash_time = 3;
+}
+
+message cs_16102 {
+  required uint32 index = 1;
+  required uint32 flash_time = 2;
+}
+
+message sc_16103 {
+  required uint32 result = 1;
+  optional shipinfo ship_info = 2;
+}
+
+message cs_16104 {
+  required uint32 type = 1;
+}
+
+message sc_16105 {
+  repeated uint32 first_pay_list = 1;
+  repeated shopinfo pay_list = 2;
+  repeated shopinfo normal_list = 3;
+  repeated shopinfo normal_group_list = 4;
+}
+
+message shipinfo {
+  required uint32 id = 1;
+  required uint32 template_id = 2;
+  required uint32 level = 3;
+  required uint32 exp = 4;
+  repeated uint32 equip_id_list = 5;
+  required uint32 energy = 6;
+  required shipstate state = 7;
+  required uint32 is_locked = 8;
+  repeated navalacademy_attr attr = 9;
+  repeated shipskill skill_id_list = 10;
+  required uint32 intimacy = 11;
+  required uint32 strength_level = 12;
+  repeated strength_info strength_list = 13;
+  required uint32 create_time = 14;
+  required uint32 skin_id = 15;
+}
+
+message shipstate {
+  required uint32 state = 1;
+  optional uint32 state_info_1 = 2;
+  optional uint32 state_info_2 = 3;
+  optional uint32 state_info_3 = 4;
+  optional uint32 state_info_4 = 5;
+}
+
+message shipskill {
+  required uint32 skill_id = 1;
+  required uint32 skill_lv = 2;
+  required uint32 skill_exp = 3;
+}
+
+message strength_info {
+  required uint32 id = 1;
+  required uint32 exp = 2;
+}
+
+message navalacademy_attr {
+  required uint32 attr = 1;
+  required uint32 num = 2;
+}
+
+message shopinfo {
+  required uint32 shop_id = 1;
+  required uint32 pay_count = 2;
+}

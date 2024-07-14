@@ -1,0 +1,230 @@
+syntax = "proto2";
+package azurlane.p11_pb;
+option go_package = "github/flyqie/blhx_server/pkg/model/blhx_game_proto/p11_pb";
+
+message cs_11001 {
+  required uint32 timestamp = 1;
+}
+
+message sc_11002 {
+  required uint32 timestamp = 1;
+  required uint32 monday_0oclock_timestamp = 2;
+}
+
+message sc_11003 {
+  required uint32 id = 1;
+  required string name = 2;
+  required uint32 level = 3;
+  required uint32 exp = 4;
+  repeated uint32 resource_list = 5;
+  required uint32 icon = 6;
+  required uint32 attack_count = 7;
+  required uint32 win_count = 8;
+  required string adv = 9;
+  required uint32 character = 10;
+  required uint32 ship_bag_max = 11;
+  required uint32 equip_bag_max = 12;
+  required uint32 gm_flag = 13;
+  required uint32 rank = 14;
+  required uint32 pvp_attack_count = 15;
+  required uint32 pvp_win_count = 16;
+  required uint32 collect_attack_count = 17;
+  required uint32 guide_index = 18;
+  required uint32 buy_oil_count = 19;
+  required uint32 chat_room_id = 20;
+  repeated cardinfo card_list = 21;
+  required uint32 max_rank = 22;
+  required uint32 register_time = 23;
+  required uint32 ship_count = 24;
+  required uint32 acc_pay_lv = 25;
+  repeated uint32 story_list = 26;
+}
+
+message sc_11004 {
+  repeated uint32 resource_list = 1;
+}
+
+message cs_11005 {
+  required uint32 icon = 1;
+}
+
+message sc_11006 {
+  required uint32 result = 1;
+}
+
+message cs_11007 {
+  required string name = 1;
+}
+
+message sc_11008 {
+  required uint32 result = 1;
+}
+
+message cs_11009 {
+  required string adv = 1;
+}
+
+message sc_11010 {
+  required uint32 result = 1;
+}
+
+message cs_11011 {
+  required uint32 character = 1;
+}
+
+message sc_11012 {
+  required uint32 result = 1;
+}
+
+message cs_11013 {
+  required uint32 type = 1;
+  required uint32 number = 2;
+}
+
+message sc_11014 {
+  required uint32 result = 1;
+}
+
+message sc_11015 {
+  repeated benefitbuff buff_list = 1;
+}
+
+message cs_11016 {
+  required uint32 guide_index = 1;
+}
+
+message cs_11017 {
+  required uint32 story_id = 1;
+}
+
+message sc_11018 {
+  required uint32 result = 1;
+}
+
+message cs_11100 {
+  required string cmd = 1;
+  optional string arg1 = 2;
+  optional string arg2 = 3;
+  optional string arg3 = 4;
+}
+
+message sc_11101 {
+  required uint32 result = 1;
+  optional string msg = 2;
+}
+
+message benefitbuff {
+  required uint32 id = 1;
+  required uint32 timestamp = 2;
+}
+
+message sc_11200 {
+  repeated activityinfo activity_list = 1;
+}
+
+message sc_11201 {
+  required activityinfo activity_info = 1;
+}
+
+message cs_11202 {
+  required uint32 activity_id = 1;
+  required uint32 cmd = 2;
+  optional uint32 arg1 = 3;
+  optional uint32 arg2 = 4;
+}
+
+message sc_11203 {
+  required uint32 result = 1;
+  repeated dropinfo award_list = 2;
+  optional buildinfo build = 3;
+}
+
+message sc_11300 {
+  repeated noticeinfo notice_list = 1;
+}
+
+message cs_11401 {
+  required uint32 room_id = 1;
+}
+
+message sc_11402 {
+  required uint32 result = 1;
+}
+
+message cs_11501 {
+  required uint32 shop_id = 1;
+}
+
+message sc_11502 {
+  required uint32 result = 1;
+  required string pay_id = 2;
+}
+
+message sc_11503 {
+  required uint32 shop_id = 1;
+  required string pay_id = 2;
+  required uint32 gem = 3;
+}
+
+message cs_11504 {
+  required string pay_id = 1;
+  required string pay_id_bili = 2;
+}
+
+message sc_11505 {
+  required uint32 result = 1;
+  required uint32 shop_id = 2;
+  required uint32 gem = 3;
+}
+
+message cs_11506 {
+  required uint32 state = 1;
+}
+
+message sc_11507 {
+  required uint32 result = 1;
+}
+
+message cs_11508 {
+  required string key = 1;
+  required string platform = 2;
+}
+
+message sc_11509 {
+  required uint32 result = 1;
+}
+
+message activityinfo {
+  required uint32 id = 1;
+  required uint32 stop_time = 2;
+  optional uint32 data1 = 3;
+  optional uint32 data2 = 4;
+  optional uint32 data3 = 5;
+  optional uint32 data4 = 6;
+  repeated uint32 data1_list = 7;
+  repeated uint32 data2_list = 8;
+  repeated uint32 data3_list = 9;
+}
+
+message noticeinfo {
+  required uint32 id = 1;
+  required string title = 2;
+  required string content = 3;
+}
+
+message dropinfo {
+  required uint32 type = 1;
+  required uint32 id = 2;
+  required uint32 number = 3;
+}
+
+message buildinfo {
+  required uint32 time = 1;
+  required uint32 finish_time = 2;
+  required uint32 build_id = 3;
+}
+
+message cardinfo {
+  required uint32 type = 1;
+  required uint32 left_date = 2;
+}
