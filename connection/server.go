@@ -77,11 +77,13 @@ func handleConnection(conn net.Conn, server *Server) {
 		return
 	}
 
-	if !client.IP.IsPrivate() {
-		logger.LogEvent("Server", "Handler", fmt.Sprintf("client %s -- not in a private range", conn.RemoteAddr()), logger.LOG_LEVEL_ERROR)
-		conn.Close()
-		return
-	}
+	/*
+		if !client.IP.IsPrivate() {
+			logger.LogEvent("Server", "Handler", fmt.Sprintf("client %s -- not in a private range", conn.RemoteAddr()), logger.LOG_LEVEL_ERROR)
+			conn.Close()
+			return
+		}
+	*/
 
 	server.AddClient(client)
 

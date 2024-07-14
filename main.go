@@ -93,7 +93,7 @@ func init() {
 	if orm.InitDatabase() { // if first run, populate the database
 		misc.UpdateAllData()
 	}
-	packets.RegisterPacketHandler(10800, []packets.PacketHandler{answer.Forge_SC10801})
+	packets.RegisterPacketHandler(10996, []packets.PacketHandler{answer.Forge_SC10996})
 	packets.RegisterPacketHandler(8239, []packets.PacketHandler{answer.Forge_SC8239})
 	packets.RegisterPacketHandler(10020, []packets.PacketHandler{answer.Forge_SC10021})
 	packets.RegisterPacketHandler(10802, []packets.PacketHandler{answer.Forge_SC10803_CN_JP_KR_TW})
