@@ -22,14 +22,6 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-var validRegions = map[string]interface{}{
-	"CN": nil,
-	"EN": nil,
-	"JP": nil,
-	"KR": nil,
-	"TW": nil,
-}
-
 func main() {
 	parser := argparse.NewParser("belfast", "Azur Lane server emulator")
 	reseed := parser.Flag("s", "reseed", &argparse.Options{
@@ -53,14 +45,14 @@ func main() {
 	}
 	if *reseed {
 		logger.LogEvent("Reseed", "Forced", "Forcing reseed of the database...", logger.LOG_LEVEL_INFO)
-		misc.UpdateAllData(os.Getenv("AL_REGION"))
+		misc.UpdateAllData()
 	}
 	server := connection.NewServer("0.0.0.0", 80, packets.Dispatch)
 
 	// Open TTY for adb controls
-	tty, err := tty.Open()
+	_tty, err := tty.Open()
 	if err != nil {
-		log.Println("failed to open tty:", err)
+		log.Println("failed to open _tty:", err)
 		log.Println("adb background routine will be disabled.")
 		return
 	}
@@ -81,11 +73,11 @@ func main() {
 
 	// Prepare adb background task
 	if *adb {
-		go debug.ADBRoutine(tty, *flushLogcat)
+		go debug.ADBRoutine(_tty, *flushLogcat)
 	}
 	if err := server.Run(); err != nil {
 		logger.LogEvent("Server", "Run", fmt.Sprintf("%v", err), logger.LOG_LEVEL_ERROR)
-		tty.Close()
+		_tty.Close()
 		os.Exit(1)
 	}
 }
@@ -98,22 +90,13 @@ func init() {
 		logger.LogEvent("Environment", "Load", err.Error(), logger.LOG_LEVEL_ERROR)
 	}
 	// Check if the region is valid
-	if _, ok := validRegions[os.Getenv("AL_REGION")]; !ok {
-		logger.LogEvent("Environment", "Invalid", fmt.Sprintf("AL_REGION is not a valid region ('%s' was supplied)", os.Getenv("AL_REGION")), logger.LOG_LEVEL_ERROR)
-		os.Exit(1)
-	}
 	if orm.InitDatabase() { // if first run, populate the database
-		misc.UpdateAllData(os.Getenv("AL_REGION"))
+		misc.UpdateAllData()
 	}
 	packets.RegisterPacketHandler(10800, []packets.PacketHandler{answer.Forge_SC10801})
 	packets.RegisterPacketHandler(8239, []packets.PacketHandler{answer.Forge_SC8239})
 	packets.RegisterPacketHandler(10020, []packets.PacketHandler{answer.Forge_SC10021})
-	packets.RegisterLocalizedPacketHandler(10802, packets.LocalizedHandler{
-		CN: &[]packets.PacketHandler{answer.Forge_SC10803_CN_JP_KR_TW},
-		TW: &[]packets.PacketHandler{answer.Forge_SC10803_CN_JP_KR_TW},
-		JP: &[]packets.PacketHandler{answer.Forge_SC10803_CN_JP_KR_TW},
-		KR: &[]packets.PacketHandler{answer.Forge_SC10803_CN_JP_KR_TW},
-	})
+	packets.RegisterPacketHandler(10802, []packets.PacketHandler{answer.Forge_SC10803_CN_JP_KR_TW})
 	packets.RegisterPacketHandler(10018, []packets.PacketHandler{answer.Forge_SC10019})
 	packets.RegisterPacketHandler(10022, []packets.PacketHandler{answer.JoinServer})
 	packets.RegisterPacketHandler(10026, []packets.PacketHandler{answer.PlayerExist})

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"net"
-	"os"
 	"reflect"
 	"sync"
 
@@ -25,7 +24,6 @@ type Server struct {
 	SocketFD    int
 	EpollFD     int
 	Dispatcher  ServerDispatcher
-	Region      string
 
 	// Maps & mutexes
 	roomsMutex   sync.RWMutex
@@ -145,7 +143,6 @@ func NewServer(bindAddress string, port int, dispatcher ServerDispatcher) *Serve
 		BindAddress: bindAddress,
 		Port:        port,
 		Dispatcher:  dispatcher,
-		Region:      os.Getenv("AL_REGION"),
 		clients:     make(map[uint32]*Client),
 		rooms:       make(map[uint32][]*Client),
 	}

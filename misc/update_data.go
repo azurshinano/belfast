@@ -1,25 +1,19 @@
 package misc
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
-	"net/http"
-
 	"github.com/ggmolly/belfast/logger"
 	"github.com/ggmolly/belfast/orm"
 	"google.golang.org/protobuf/proto"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
-)
-
-const (
-	// region / file
-	URL_BASE            = "https://raw.githubusercontent.com/ggmolly/belfast-data/main/%s/%s"
-	REGIONLESS_URL_BASE = "https://raw.githubusercontent.com/ggmolly/belfast-data/main/%s"
+	"io/ioutil"
 )
 
 var (
-	dataFn = map[string]func(string, *gorm.DB) error{
+	dataFn = map[string]func(*gorm.DB) error{
 		"Items":      importItems,
 		"Buffs":      importBuffs,
 		"Ships":      importShips,
@@ -33,31 +27,21 @@ var (
 	order = []string{"Items", "Buffs", "Ships", "Skins", "Resources", "Pools", "BuildTimes", "ShopOffers"}
 )
 
-func getBelfastData(region string, file string) (*json.Decoder, *http.Response, error) {
-	var url string
-	if region == "" {
-		url = fmt.Sprintf(REGIONLESS_URL_BASE, file)
-	} else {
-		url = fmt.Sprintf(URL_BASE, region, file)
-	}
-	resp, err := http.Get(url)
+func getBelfastData(file string) (*json.Decoder, error) {
+	data, err := ioutil.ReadFile(fmt.Sprintf("./belfast-data/%s", file))
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
-	if resp.StatusCode != http.StatusOK {
-		return nil, nil, fmt.Errorf("failed to fetch data from %s: %s", url, resp.Status)
-	}
-	return json.NewDecoder(resp.Body), resp, nil
+	return json.NewDecoder(bytes.NewReader(data)), nil
 }
 
 // TODO: A lot of code duplication here, could be refactored
 
-func importItems(region string, tx *gorm.DB) error {
-	decoder, resp, err := getBelfastData(region, "item_data_statistics.json")
+func importItems(tx *gorm.DB) error {
+	decoder, err := getBelfastData("item_data_statistics.json")
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
 	decoder.Token() // Consume the start of the array '['
 
 	// Decode each elements
@@ -72,12 +56,11 @@ func importItems(region string, tx *gorm.DB) error {
 	return nil
 }
 
-func importBuffs(region string, tx *gorm.DB) error {
-	decoder, resp, err := getBelfastData(region, "benefit_buff_template.json")
+func importBuffs(tx *gorm.DB) error {
+	decoder, err := getBelfastData("benefit_buff_template.json")
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
 	decoder.Token() // Consume the start of the array '['
 
 	// Decode each elements
@@ -92,12 +75,11 @@ func importBuffs(region string, tx *gorm.DB) error {
 	return nil
 }
 
-func importShips(region string, tx *gorm.DB) error {
-	decoder, resp, err := getBelfastData(region, "ship_data_statistics.json")
+func importShips(tx *gorm.DB) error {
+	decoder, err := getBelfastData("ship_data_statistics.json")
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
 	decoder.Token() // Consume the start of the array '['
 
 	// Decode each elements
@@ -112,12 +94,11 @@ func importShips(region string, tx *gorm.DB) error {
 	return nil
 }
 
-func importSkins(region string, tx *gorm.DB) error {
-	decoder, resp, err := getBelfastData(region, "ship_skin_template.json")
+func importSkins(tx *gorm.DB) error {
+	decoder, err := getBelfastData("ship_skin_template.json")
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
 	decoder.Token() // Consume the start of the array '['
 
 	// Decode each elements
@@ -132,12 +113,11 @@ func importSkins(region string, tx *gorm.DB) error {
 	return nil
 }
 
-func importResources(region string, tx *gorm.DB) error {
-	decoder, resp, err := getBelfastData(region, "player_resource.json")
+func importResources(tx *gorm.DB) error {
+	decoder, err := getBelfastData("player_resource.json")
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
 	decoder.Token() // Consume the start of the array '['
 
 	// Decode each elements
@@ -152,13 +132,11 @@ func importResources(region string, tx *gorm.DB) error {
 	return nil
 }
 
-func importPools(region string, tx *gorm.DB) error {
-	decoder, resp, err := getBelfastData("", "build_pools.json")
+func importPools(tx *gorm.DB) error {
+	decoder, err := getBelfastData("build_pools.json")
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
-
 	// [{"id": 101451, "pool": 2}, {"id": 702011, "pool": 2}, {"id": 101491, "pool": 2}, {"id": 702031, "pool": 2}...]
 	decoder.Token() // Consume the start of the array '['
 
@@ -185,13 +163,11 @@ func importPools(region string, tx *gorm.DB) error {
 	return nil
 }
 
-func importBuildTimes(region string, tx *gorm.DB) error {
-	decoder, resp, err := getBelfastData("", "build_times.json")
+func importBuildTimes(tx *gorm.DB) error {
+	decoder, err := getBelfastData("build_times.json")
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
-
 	// {"101031": 1380, "101041": 1380, "101061": 1500, "101071": 1500, ...}
 	var buildTimes map[string]uint32
 	if err := decoder.Decode(&buildTimes); err != nil {
@@ -212,12 +188,11 @@ func importBuildTimes(region string, tx *gorm.DB) error {
 	return nil
 }
 
-func importShopOffers(region string, tx *gorm.DB) error {
-	decoder, resp, err := getBelfastData(region, "shop_template.json")
+func importShopOffers(tx *gorm.DB) error {
+	decoder, err := getBelfastData("shop_template.json")
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
 	decoder.Token() // Consume the start of the array '['
 
 	// Decode each elements
@@ -253,19 +228,19 @@ func importShopOffers(region string, tx *gorm.DB) error {
 // upon restarting Belfast, the database won't be re-populated because some tables were already populated
 // this could be fixed by passing a single transaction to all the data import functions, but requires some refactoring
 // due to the way data is being initialized (mix of 'misc' and 'orm' packages)
-func UpdateAllData(region string) {
+func UpdateAllData() {
 	logger.LogEvent("GameData", "Updating", "Updating all game data.. this may take a while.", logger.LOG_LEVEL_INFO)
 	tx := orm.GormDB.Begin()
 	for _, key := range order {
 		fn := dataFn[key]
-		logger.LogEvent("GameData", "Updating", fmt.Sprintf("Updating %s (region=%s)", key, region), logger.LOG_LEVEL_INFO)
+		logger.LogEvent("GameData", "Updating", fmt.Sprintf("Updating %s", key), logger.LOG_LEVEL_INFO)
 		// defer func() {
 		// 	if r := recover(); r != nil {
 		// 		logger.LogEvent("GameData", "Updating", fmt.Sprintf("panic occurred while updating %s: %v", key, r), logger.LOG_LEVEL_ERROR)
 		// 		tx.Rollback()
 		// 	}
 		// }()
-		if err := fn(region, tx); err != nil {
+		if err := fn(tx); err != nil {
 			logger.LogEvent("GameData", "Updating", fmt.Sprintf("failed to update %s: %s", key, err.Error()), logger.LOG_LEVEL_ERROR)
 			tx.Rollback()
 		}

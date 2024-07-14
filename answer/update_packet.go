@@ -7,8 +7,6 @@ import (
 
 	"github.com/ggmolly/belfast/connection"
 	"github.com/ggmolly/belfast/consts"
-	"github.com/ggmolly/belfast/misc"
-
 	"github.com/ggmolly/belfast/protobuf"
 	"google.golang.org/protobuf/proto"
 )
@@ -32,9 +30,9 @@ func Forge_SC10801(buffer *[]byte, client *connection.Client) (int, int, error) 
 	}
 
 	if len(versions) == 0 {
-		hashes := misc.GetGameHashes()
+		hashes := []string{"1"}
 		for _, hash := range hashes {
-			versions = append(versions, hash.Hash)
+			versions = append(versions, hash)
 		}
 		versions = append(versions, "dTag-1")
 	}
@@ -61,7 +59,7 @@ func Forge_SC10801(buffer *[]byte, client *connection.Client) (int, int, error) 
 		resolvedPlatform = "Unknown"
 	}
 
-	url, ok := consts.GamePlatformUrl[belfastRegion][updateCheck.GetPlatform()]
+	url, ok := consts.GamePlatformUrl[updateCheck.GetPlatform()]
 	if !ok {
 		return 0, 10801, fmt.Errorf("unknown platform '%s' (id='%s')", resolvedPlatform, updateCheck.GetPlatform())
 	} else {
