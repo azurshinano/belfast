@@ -1,12 +1,9 @@
 package answer
 
 import (
-	"fmt"
-	"os"
 	"time"
 
 	"github.com/ggmolly/belfast/connection"
-	"github.com/ggmolly/belfast/consts"
 	"github.com/ggmolly/belfast/protobuf"
 	"google.golang.org/protobuf/proto"
 )
@@ -36,35 +33,24 @@ func Forge_SC10801(buffer *[]byte, client *connection.Client) (int, int, error) 
 		}
 		versions = append(versions, "dTag-1")
 	}
-	belfastRegion := os.Getenv("AL_REGION")
 
 	// It seems like the game kind of ignore anything but the versions, timestamp & Monday_0OclockTimestamp
 	response := protobuf.SC_10801{
-		GatewayIp:               proto.String(consts.RegionGateways[belfastRegion]),
+		GatewayIp:               proto.String("line1-login-bili-blhx.bilibiligame.net"),
 		GatewayPort:             proto.Uint32(80),
 		Url:                     proto.String(""),
 		Version:                 versions,
-		ProxyIp:                 proto.String(consts.RegionProxies[belfastRegion]),
+		ProxyIp:                 proto.String("line1-bak-login-bili-blhx.bilibiligame.net"),
 		ProxyPort:               proto.Uint32(20000),
 		IsTs:                    proto.Uint32(0),
 		Timestamp:               proto.Uint32(uint32(time.Now().Unix())),
-		Monday_0OclockTimestamp: proto.Uint32(consts.Monday_0OclockTimestamps[belfastRegion]),
+		Monday_0OclockTimestamp: proto.Uint32(1606060800),
 
 		// wtf is this i don't even understand what monday_0oclock_timestamp is
 		// who would even do such a thing
 	}
 
-	resolvedPlatform, ok := platformMap[updateCheck.GetPlatform()]
-	if !ok {
-		resolvedPlatform = "Unknown"
-	}
-
-	url, ok := consts.GamePlatformUrl[updateCheck.GetPlatform()]
-	if !ok {
-		return 0, 10801, fmt.Errorf("unknown platform '%s' (id='%s')", resolvedPlatform, updateCheck.GetPlatform())
-	} else {
-		response.Url = proto.String(url)
-	}
+	response.Url = proto.String("https://blhx.biligame.com")
 
 	return client.SendMessage(packetId, &response)
 }
